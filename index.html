@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Network Simulator</title>
+    <link rel="stylesheet" href="style.css">
+    <meta content="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body onload="init();">
+    <!-- Modern Toolbar -->
+    <div id="modernToolbar" style="position:fixed;top:0;left:0;right:0;height:60px;background:linear-gradient(135deg, rgba(30,33,48,0.98) 0%, rgba(26,29,46,0.98) 100%);backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;padding:0 20px;gap:20px;font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;">
+
+        <!-- Logo/Title -->
+        <div style="display:flex;align-items:center;gap:12px;">
+            <div>
+                <div style="color:white;font-weight:600;font-size:16px;letter-spacing:0.5px;display:flex;align-items:center;gap:8px;">
+                    Network&nbsp;Simulator
+                    <span class="help-icon" onclick="showHelp('app_overview')" title="Application Help & Quick Start Guide" style="background:rgba(102,126,234,0.3);color:white;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(102,126,234,0.6)'" onmouseout="this.style.background='rgba(102,126,234,0.3)'">?</span>
+                </div>
+                <div style="color:#9ca3af;font-size:11px;margin-top:2px;">Design & Test Networks</div>
+            </div>
+        </div>
+
+        <!-- Separator -->
+        <div style="width:1px;height:30px;background:rgba(255,255,255,0.1);"></div>
+
+        <!-- Tool Buttons -->
+        <div style="display:flex;gap:8px;">
+            <!-- Device Type Dropdown -->
+            <div style="position:relative;">
+                <button onclick="toggleDeviceMenu()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;transition:all 0.2s;display:flex;align-items:center;gap:6px;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+                    <span style="font-size:16px;">&#x1F4BB;</span> Add Device <span style="font-size:10px;">&#x25BC;</span>
+                </button>
+                <div id="deviceMenu" style="display:none;position:absolute;top:100%;left:0;margin-top:4px;background:white;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.2);padding:8px;min-width:280px;z-index:1000;">
+                    <div onclick="newDeviceElement('desktop');toggleDeviceMenu()" style="padding:8px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                        <span>&#x1F5A5;&#xFE0F;</span> Desktop Computer <span style="font-size:11px;color:#888;">(Wired)</span>
+                    </div>
+                    <div onclick="newDeviceElement('laptop');toggleDeviceMenu()" style="padding:8px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                        <span>&#x1F4BB;</span> Laptop <span style="font-size:11px;color:#888;">(WiFi + Wired)</span>
+                    </div>
+                    <div onclick="newDeviceElement('smartphone');toggleDeviceMenu()" style="padding:8px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                        <span>&#x1F4F1;</span> Smartphone <span style="font-size:11px;color:#888;">(WiFi)</span>
+                    </div>
+                    <div onclick="newDeviceElement('gaming');toggleDeviceMenu()" style="padding:8px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                        <span>&#x1F3AE;</span> Gaming Console <span style="font-size:11px;color:#888;">(WiFi + Wired)</span>
+                    </div>
+                    <div onclick="newDeviceElement('smarttv');toggleDeviceMenu()" style="padding:8px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                        <span>&#x1F4FA;</span> Smart TV <span style="font-size:11px;color:#888;">(WiFi + Wired)</span>
+                    </div>
+                    <div onclick="newDeviceElement('iot');toggleDeviceMenu()" style="padding:8px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                        <span>&#x1F4A1;</span> IoT Device <span style="font-size:11px;color:#888;">(WiFi)</span>
+                    </div>
+                </div>
+            </div>
+            <button onclick="newElement('switch')" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;transition:all 0.2s;display:flex;align-items:center;gap:6px;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+                <span style="font-size:16px;">&#x1F50C;</span> Add Switch
+            </button>
+            <button onclick="newElement('router')" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;transition:all 0.2s;display:flex;align-items:center;gap:6px;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+                <span style="font-size:16px;">&#x1F4E1;</span> Add Router
+            </button>
+            <button onclick="newElement('firewall')" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;transition:all 0.2s;display:flex;align-items:center;gap:6px;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+                <span style="font-size:16px;">&#x1F6E1;&#xFE0F;</span> Add Firewall
+            </button>
+        </div>
+
+        <!-- Server Dropdown -->
+        <div style="position:relative;">
+            <button onclick="toggleServerMenu()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;transition:all 0.2s;display:flex;align-items:center;gap:6px;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+                <span style="font-size:16px;">&#x1F5A5;&#xFE0F;</span> Add Server <span style="font-size:10px;">&#x25BC;</span>
+            </button>
+            <div id="serverMenu" style="display:none;position:absolute;top:100%;left:0;margin-top:4px;background:white;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.2);padding:8px;min-width:160px;">
+                <div onclick="newElement('dhcp');toggleServerMenu()" style="padding:8px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">&#x1F310; DHCP Server</div>
+                <div onclick="newElement('dns');toggleServerMenu()" style="padding:8px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">&#x1F50D; DNS Server</div>
+                <div onclick="newElement('web');toggleServerMenu()" style="padding:8px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">&#x1F30D; Web Server</div>
+                <div onclick="newElement('email');toggleServerMenu()" style="padding:8px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">&#x1F4E7; Email Server</div>
+                <div onclick="newElement('gameserver');toggleServerMenu()" style="padding:8px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">&#x1F3AE; Game Server</div>
+                <div onclick="newElement('radius');toggleServerMenu()" style="padding:8px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">&#x1F510; RADIUS Server</div>
+            </div>
+        </div>
+
+        <!-- Spacer -->
+        <div style="flex:1;"></div>
+
+        <!-- View Controls -->
+        <div style="display:flex;gap:8px;align-items:center;">
+            <!-- Zoom Controls -->
+            <div style="display:flex;gap:4px;background:rgba(255,255,255,0.05);padding:4px;border-radius:8px;align-items:center;">
+                <button onclick="zoomOut()" title="Zoom Out" style="background:rgba(255,255,255,0.1);border:none;color:white;width:28px;height:28px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">&#x2212;</button>
+                <span id="zoomLevel" style="color:white;font-size:11px;min-width:45px;text-align:center;">100%</span>
+                <button onclick="zoomIn()" title="Zoom In" style="background:rgba(255,255,255,0.1);border:none;color:white;width:28px;height:28px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">+</button>
+                <div style="width:1px;height:20px;background:rgba(255,255,255,0.2);margin:0 4px;"></div>
+                <button onclick="resetView()" title="Reset View (1:1)" style="background:rgba(255,255,255,0.1);border:none;color:white;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">1:1</button>
+                <button onclick="fitToScreen()" title="Fit to Screen" style="background:rgba(255,255,255,0.1);border:none;color:white;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">Fit</button>
+            </div>
+
+            <!-- Labels Dropdown Menu -->
+            <div style="position:relative;display:inline-block;">
+                <button id="labelsMenuButton" onclick="toggleLabelsMenu(event)" title="Label Options" style="background:rgba(102,126,234,0.3);border:none;color:white;padding:6px 10px;border-radius:4px;cursor:pointer;font-size:11px;display:flex;align-items:center;gap:4px;transition:all 0.2s;" onmouseover="this.style.background='rgba(102,126,234,0.5)'" onmouseout="this.style.background='rgba(102,126,234,0.3)'">
+                    <span style="font-size:14px;">&#x1F3F7;&#xFE0F;</span> Labels <span style="font-size:10px;">&#x25BC;</span>
+                </button>
+                <div id="labelsDropdown" style="display:none;position:absolute;top:100%;left:0;margin-top:4px;background:#2a2d3e;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:4px 0;min-width:180px;box-shadow:0 4px 6px rgba(0,0,0,0.3);z-index:1000;">
+                    <div onclick="toggleDeviceLabels()" style="padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;color:white;font-size:11px;transition:background 0.2s;" onmouseover="this.style.background='rgba(102,126,234,0.2)'" onmouseout="this.style.background='transparent'">
+                        <input type="checkbox" id="deviceLabelsCheck" style="margin:0;pointer-events:none;">
+                        <label style="cursor:pointer;pointer-events:none;">Device Names & IPs</label>
+                    </div>
+                    <div onclick="toggleLinkLabels()" style="padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;color:white;font-size:11px;transition:background 0.2s;" onmouseover="this.style.background='rgba(102,126,234,0.2)'" onmouseout="this.style.background='transparent'">
+                        <input type="checkbox" id="linkLabelsCheck" style="margin:0;pointer-events:none;">
+                        <label style="cursor:pointer;pointer-events:none;">Link Interface Labels</label>
+                    </div>
+                    <div style="border-top:1px solid rgba(255,255,255,0.1);margin:4px 0;"></div>
+                    <div onclick="toggleAllLabels(true)" style="padding:8px 12px;cursor:pointer;color:white;font-size:11px;transition:background 0.2s;" onmouseover="this.style.background='rgba(102,126,234,0.2)'" onmouseout="this.style.background='transparent'">
+                        Show All
+                    </div>
+                    <div onclick="toggleAllLabels(false)" style="padding:8px 12px;cursor:pointer;color:white;font-size:11px;transition:background 0.2s;" onmouseover="this.style.background='rgba(102,126,234,0.2)'" onmouseout="this.style.background='transparent'">
+                        Hide All
+                    </div>
+                </div>
+            </div>
+
+            <!-- Animation Controls -->
+            <div style="display:flex;gap:4px;background:rgba(255,255,255,0.05);padding:4px;border-radius:8px;">
+                <button onclick="AnimationControls.setSpeed(0.5)" title="Slow Down" style="background:rgba(255,255,255,0.1);border:none;color:white;width:28px;height:28px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">&#x23EA;</button>
+                <button onclick="AnimationControls.playPause()" title="Play/Pause" style="background:rgba(102,126,234,0.3);border:none;color:white;width:28px;height:28px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;" onmouseover="this.style.background='rgba(102,126,234,0.5)'" onmouseout="this.style.background='rgba(102,126,234,0.3)'">&#x23EF;&#xFE0F;</button>
+                <button onclick="AnimationControls.setSpeed(2)" title="Speed Up" style="background:rgba(255,255,255,0.1);border:none;color:white;width:28px;height:28px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">&#x23E9;</button>
+            </div>
+        </div>
+
+        <!-- File Operations Dropdown -->
+        <div style="position:relative;">
+            <button onclick="toggleFileMenu()" style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);border:none;color:white;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;transition:all 0.2s;box-shadow:0 2px 8px rgba(102,126,234,0.3);display:flex;align-items:center;gap:6px;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 12px rgba(102,126,234,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 8px rgba(102,126,234,0.3)'">
+                <span style="font-size:14px;">&#x1F4C1;</span> File <span style="font-size:10px;">&#x25BC;</span>
+            </button>
+            <div id="fileMenu" style="display:none;position:absolute;top:100%;right:0;margin-top:4px;background:white;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.2);padding:8px;min-width:200px;z-index:1000;">
+                <div onclick="downloadClick();toggleFileMenu()" style="padding:10px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                    <span><span style="margin-right:8px;">&#x1F4BE;</span> Save Project</span>
+                    <span style="font-size:11px;color:#888;">Ctrl+S</span>
+                </div>
+                <div onclick="uploadClick();toggleFileMenu()" style="padding:10px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                    <span><span style="margin-right:8px;">&#x1F4C2;</span> Load Project</span>
+                    <span style="font-size:11px;color:#888;"></span>
+                </div>
+                <div onclick="sharePreview();toggleFileMenu()" style="padding:10px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                    <span><span style="margin-right:8px;">&#x1F517;</span> Share Preview</span>
+                    <span style="font-size:11px;color:#888;"></span>
+                </div>
+                <div style="height:1px;background:#e0e0e0;margin:4px 0;"></div>
+                <div onclick="showTemplatesModal();toggleFileMenu()" style="padding:10px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                    <span><span style="margin-right:8px;">&#x1F3AF;</span> Templates</span>
+                    <span style="font-size:11px;color:#888;"></span>
+                </div>
+                <div onclick="exportAsTemplate();toggleFileMenu()" style="padding:10px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                    <span><span style="margin-right:8px;">&#x1F4E4;</span> Export as Template</span>
+                    <span style="font-size:11px;color:#888;"></span>
+                </div>
+                <div onclick="loadTemplateFile();toggleFileMenu()" style="padding:10px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                    <span><span style="margin-right:8px;">&#x1F4E5;</span> Import Template</span>
+                    <span style="font-size:11px;color:#888;"></span>
+                </div>
+                <div style="height:1px;background:#e0e0e0;margin:4px 0;"></div>
+                <div onclick="showHelp('app_overview');toggleFileMenu()" style="padding:10px 12px;border-radius:4px;cursor:pointer;color:#2d3748;font-size:13px;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                    <span><span style="margin-right:8px;">&#x2753;</span> Help & Quick Start</span>
+                    <span style="font-size:11px;color:#888;"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Language Selector removed - not fully implemented -->
+        <!-- <button onclick="createLocaleDiv()" title="Language" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;width:36px;height:36px;border-radius:6px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">&#x1F310;</button> -->
+    </div>
+
+    <!-- Canvas Container (adjusted for toolbar) -->
+    <div id="simcontainer" style="position:fixed;top:60px;left:0;right:0;bottom:0;background:#1a1d2e;">
+      <canvas id="simcanvas"></canvas>
+      <div class="loading" id="loadingMessage" style="display:none;">Loading Network...</div>
+
+      <!-- Navigation Help & Quick Tips -->
+      <div id="navHelp" style="position:absolute;bottom:80px;left:20px;background:rgba(0,0,0,0.85);color:white;padding:16px;border-radius:10px;font-size:11px;font-family:Inter,sans-serif;backdrop-filter:blur(10px);border:1px solid rgba(102,126,234,0.3);max-width:300px;box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+        <div style="font-weight:600;margin-bottom:10px;color:#667eea;font-size:13px;display:flex;align-items:center;gap:6px;">
+          <span>&#x1F3AF;</span> Quick Start Tips
+        </div>
+        <div style="line-height:1.7;margin-bottom:12px;">
+          <div style="margin-bottom:4px;">&#x1F5B1;&#xFE0F; <strong>Scroll:</strong> Zoom in/out</div>
+          <div style="margin-bottom:4px;">&#x2328;&#xFE0F; <strong>Space + Drag:</strong> Pan around</div>
+          <div style="margin-bottom:4px;">&#x1F5B1;&#xFE0F; <strong>Click device &#x2192; Click device:</strong> Connect with cable</div>
+          <div style="margin-bottom:4px;">&#x1F5B1;&#xFE0F; <strong>Right-click:</strong> Device options & menu</div>
+        </div>
+        <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:10px;margin-top:10px;">
+          <button onclick="showHelp('app_overview')" style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:500;width:100%;transition:all 0.2s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 12px rgba(102,126,234,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+            &#x1F4DA; View Full Help Guide
+          </button>
+        </div>
+        <button onclick="this.parentElement.style.display='none'" style="position:absolute;top:8px;right:8px;background:rgba(255,255,255,0.1);border:none;color:#9ca3af;cursor:pointer;font-size:16px;padding:0;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:4px;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'" title="Close">&#xD7;</button>
+      </div>
+    </div>
+
+    <!-- Application Scripts -->
+    <script src="js/Globals.js"></script>
+    <script src="js/ImageLoader.js"></script>
+    <script src="js/UIClickable.js"></script>
+    <script src="js/UIRectangle.js"></script>
+    <script src="js/UILine.js"></script>
+    <script src="js/UIWindow.js"></script>
+    <script src="js/UIMenu.js"></script>
+    <script src="js/UITable.js"></script>
+    <script src="js/UITranslation.js"></script>
+    <script src="js/UIManager.js"></script>
+    <script src="js/AnimationControls.js"></script>
+    <script src="js/Drawable.js"></script>
+    <script src="js/Connector.js"></script>
+    <script src="js/IPInfo.js"></script>
+    <script src="js/ARPTable.js"></script>
+    <script src="js/Message.js"></script>
+    <script src="js/PacketInspector.js"></script>
+    <script src="js/TrafficManager.js"></script>
+    <script src="js/GatewayManager.js"></script>
+    <script src="js/Connectable.js"></script>
+    <script src="js/Link.js"></script>
+    <script src="js/DHCPClient.js"></script>
+    <script src="js/DHCPServer.js"></script>
+    <script src="js/DNSClient.js"></script>
+    <script src="js/DNSServer.js"></script>
+    <script src="js/HTTPClient.js"></script>
+    <script src="js/HTTPServer.js"></script>
+    <script src="js/SSLHandshake.js"></script>
+    <script src="js/EmailServer.js"></script>
+    <script src="js/EmailClient.js"></script>
+    <script src="js/RADIUSServer.js"></script>
+    <script src="js/RADIUSClient.js"></script>
+    <script src="js/Firewall.js"></script>
+    <script src="js/ACL.js"></script>
+    <script src="js/help-content.js"></script>
+    <script src="js/GameClient.js"></script>
+    <script src="js/GameClientUI.js"></script>
+    <script src="js/GameServerUI.js"></script>
+    <script src="js/TemplateManager.js"></script>
+    <script src="js/ServerResources.js"></script>
+    <script src="js/Host.js"></script>
+    <script src="js/AttackManager.js"></script>
+    <script src="js/Network.js"></script>
+    <script src="js/simulator.js"></script>
+    <script src="js/i18n/en_GB.js"></script>
+    <script src="js/i18n/es_ES.js"></script>
+    <script src="js/i18n/eu_ES.js"></script>
+
+    <!-- Application Entry Point -->
+    <script src="app.js"></script>
+  </body>
+</html>

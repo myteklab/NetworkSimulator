@@ -1,0 +1,648 @@
+// NetworkSimulator App - Extracted from index.php
+// Platform-adapted: removed old save/load, added serializeProjectData/loadProjectData
+
+var currentProjectId = null;
+var applicationId = null;
+var previewMode = false;
+var hasUnsavedChanges = false;
+var initialElementCount = 0;
+var lastSaveTime = 0;
+
+    // Separate visibility states for device labels and link labels
+    var showDeviceLabels = localStorage.getItem('networkSimShowDeviceLabels') !== 'false';
+    var showLinkLabels = localStorage.getItem('networkSimShowLinkLabels') !== 'false';
+
+    function init()
+    {
+        // Check if email scripts loaded
+        // // console.log('Checking email scripts:');
+        // // console.log('EmailClient available:', typeof window.EmailClient);
+        // // console.log('EmailServer available:', typeof window.EmailServer);
+
+        // Set up responsive canvas
+        setupResponsiveCanvas();
+
+        // Show packet inspector hint on first load (not in preview mode)
+        if (!previewMode && !localStorage.getItem('packetInspectorHintShown')) {
+            setTimeout(function() {
+                showToast('💡 Tip: Click on any packet to inspect its layers!', 'info', 5000);
+                localStorage.setItem('packetInspectorHintShown', 'true');
+            }, 3000);
+        }
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+S for save (disabled in preview mode)
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                if (!previewMode) {
+                    // Use the existing save function
+                    if (typeof downloadClick === 'function') {
+                        downloadClick();
+                    }
+                } else {
+                    showToast('⚠️ Saving is disabled in preview mode', 'info', 2000);
+                }
+            }
+            // L key for toggling link labels (when not typing in an input)
+            else if (e.key === 'l' || e.key === 'L') {
+                // Don't toggle if user is typing in an input field
+                if (document.activeElement.tagName !== 'INPUT' && 
+                    document.activeElement.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                    toggleLinkLabels();
+                }
+            }
+        });
+        
+        // Show save indicator function
+        window.showSaveIndicator = function(message, type, duration) {
+            // Remove any existing indicator
+            var existing = document.getElementById('save-indicator');
+            if (existing) {
+                document.body.removeChild(existing);
+            }
+            
+            // Create new indicator
+            var indicator = document.createElement('div');
+            indicator.id = 'save-indicator';
+            indicator.style.cssText = 'position:fixed;bottom:20px;right:20px;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:500;z-index:10000;animation:slideIn 0.3s ease;';
+            
+            // Style based on type
+            if (type === 'success') {
+                indicator.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                indicator.style.color = 'white';
+                indicator.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.3)';
+            } else if (type === 'info') {
+                indicator.style.background = 'linear-gradient(135deg, #3b82f6, #2563eb)';
+                indicator.style.color = 'white';
+                indicator.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+            }
+            
+            indicator.innerHTML = message + ' <span style="opacity:0.7;font-size:11px;">(' + new Date().toLocaleTimeString() + ')</span>';
+            
+            // Add animation styles
+            var style = document.createElement('style');
+            style.textContent = '@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }';
+            if (!document.querySelector('style[data-save-indicator]')) {
+                style.setAttribute('data-save-indicator', 'true');
+                document.head.appendChild(style);
+            }
+            
+            document.body.appendChild(indicator);
+            
+            // Auto-remove after duration
+            if (duration) {
+                setTimeout(function() {
+                    if (document.getElementById('save-indicator')) {
+                        document.body.removeChild(document.getElementById('save-indicator'));
+                    }
+                }, duration);
+            }
+        };
+
+	// Create device type images dynamically
+	function createDeviceImage(emoji) {
+	    var canvas = document.createElement('canvas');
+	    canvas.width = 64;
+	    canvas.height = 64;
+	    var ctx = canvas.getContext('2d');
+	    
+	    // Clear background (transparent)
+	    ctx.clearRect(0, 0, 64, 64);
+	    
+	    // Draw emoji larger and centered
+	    ctx.font = '48px sans-serif';
+	    ctx.textAlign = 'center';
+	    ctx.textBaseline = 'middle';
+	    ctx.fillStyle = '#000';
+	    ctx.fillText(emoji, 32, 32);
+	    
+	    // Convert to image
+	    var img = new Image();
+	    img.src = canvas.toDataURL();
+	    return img;
+	}
+	
+	// Create images for each device type
+	var deviceImages = {
+	    desktop: createDeviceImage('🖥️'),
+	    laptop: createDeviceImage('💻'),
+	    smartphone: createDeviceImage('📱'),
+	    gaming: createDeviceImage('🎮'),
+	    smarttv: createDeviceImage('📺'),
+	    iot: createDeviceImage('💡')
+	};
+	
+	var loader = new ImageLoader(
+	["img/64/switch.png", 
+	    "img/64/router2.png", 
+	    "img/64/computer.png", 
+	    "img/64/server_web.png", 
+	    "img/64/server_dns.png", 
+	    "img/64/server_dhcp.png", 
+	    "img/64/envelope-DHCP.png", 
+	    "img/64/envelope-DNS.png", 
+	    "img/64/envelope-HTTP.png",
+	    "img/64/envelope-ICMP.png",
+	    "img/64/envelope-ICMP.png",  // Using ICMP envelope as placeholder for ARP at position 10
+	    "img/64/firewall.png",       // Now at correct position 11
+	    "img/64/server_email.png",
+	    "img/64/envelope-EMAIL.png"], 
+	function(loadedImages) {
+	    // Add device images to the loaded images array
+	    window.deviceImages = deviceImages;
+	    simulator(loadedImages);
+	    
+	    // Set initial state of labels button and checkboxes based on saved preferences
+	    updateLabelsButtonAppearance();
+	    updateLabelCheckboxes();
+	}
+	);
+	loader.load();
+    }
+    
+    // Canvas viewport management
+    var canvasViewport = {
+        zoom: 1,
+        offsetX: 0,
+        offsetY: 0,
+        isDragging: false,
+        lastX: 0,
+        lastY: 0,
+        minZoom: 0.25,
+        maxZoom: 4
+    };
+    
+    function setupResponsiveCanvas() {
+        var container = document.getElementById("simcontainer");
+        var canvas = document.getElementById("simcanvas");
+        
+        // Set canvas size to match container
+        function resizeCanvas() {
+            var rect = container.getBoundingClientRect();
+            var newWidth = rect.width * window.devicePixelRatio;
+            var newHeight = rect.height * window.devicePixelRatio;
+            
+            // Only resize if dimensions actually changed
+            if (canvas.width !== newWidth || canvas.height !== newHeight) {
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                canvas.style.width = rect.width + 'px';
+                canvas.style.height = rect.height + 'px';
+                
+                // Notify the network that canvas was resized
+                if (typeof network !== 'undefined' && network) {
+                    network.setDimensions(newWidth, newHeight);
+                    network.render();
+                }
+            }
+        }
+        
+        // Initial sizing
+        resizeCanvas();
+        
+        // Resize on window change with debouncing
+        var resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(resizeCanvas, 100);
+        });
+        
+        // Setup pan and zoom controls
+        setupCanvasControls(canvas);
+        
+        return resizeCanvas;
+    }
+    
+    function setupCanvasControls(canvas) {
+        // Mouse wheel zoom
+        canvas.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            
+            var rect = canvas.getBoundingClientRect();
+            var mouseX = (e.clientX - rect.left) * (canvas.width / rect.width);
+            var mouseY = (e.clientY - rect.top) * (canvas.height / rect.height);
+            
+            var zoomDelta = e.deltaY < 0 ? 1.1 : 0.9;
+            var newZoom = canvasViewport.zoom * zoomDelta;
+            
+            // Clamp zoom
+            newZoom = Math.max(canvasViewport.minZoom, Math.min(canvasViewport.maxZoom, newZoom));
+            
+            // Zoom towards mouse position
+            var zoomRatio = newZoom / canvasViewport.zoom;
+            canvasViewport.offsetX = mouseX - (mouseX - canvasViewport.offsetX) * zoomRatio;
+            canvasViewport.offsetY = mouseY - (mouseY - canvasViewport.offsetY) * zoomRatio;
+            
+            canvasViewport.zoom = newZoom;
+            updateZoomIndicator();
+            
+            if (network) {
+                network.render();
+            }
+        });
+        
+        // Middle mouse button or space+drag for panning
+        var spacePressed = false;
+        
+        window.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' && !e.target.matches('input, textarea')) {
+                e.preventDefault();
+                spacePressed = true;
+                canvas.style.cursor = 'grab';
+            }
+        });
+        
+        window.addEventListener('keyup', function(e) {
+            if (e.code === 'Space') {
+                spacePressed = false;
+                canvas.style.cursor = 'default';
+                canvasViewport.isDragging = false;
+            }
+        });
+        
+        canvas.addEventListener('mousedown', function(e) {
+            if (e.button === 1 || (e.button === 0 && spacePressed)) { // Middle button or space+left
+                e.preventDefault();
+                canvasViewport.isDragging = true;
+                canvasViewport.lastX = e.clientX;
+                canvasViewport.lastY = e.clientY;
+                canvas.style.cursor = 'grabbing';
+            }
+        });
+        
+        window.addEventListener('mousemove', function(e) {
+            if (canvasViewport.isDragging) {
+                var deltaX = e.clientX - canvasViewport.lastX;
+                var deltaY = e.clientY - canvasViewport.lastY;
+                
+                canvasViewport.offsetX += deltaX;
+                canvasViewport.offsetY += deltaY;
+                
+                canvasViewport.lastX = e.clientX;
+                canvasViewport.lastY = e.clientY;
+                
+                if (network) {
+                    network.render();
+                }
+            }
+        });
+        
+        window.addEventListener('mouseup', function(e) {
+            if (e.button === 1 || e.button === 0) {
+                canvasViewport.isDragging = false;
+                if (spacePressed) {
+                    canvas.style.cursor = 'grab';
+                } else {
+                    canvas.style.cursor = 'default';
+                }
+            }
+        });
+
+        // Add hover detection to show pointer cursor over packets
+        canvas.addEventListener('mousemove', function(e) {
+            if (!network || !network.getLinks) return;
+
+            var rect = canvas.getBoundingClientRect();
+            var scaleX = canvas.width / rect.width;
+            var scaleY = canvas.height / rect.height;
+            var x = (e.clientX - rect.left) * scaleX;
+            var y = (e.clientY - rect.top) * scaleY;
+            var networkX = (x - canvasViewport.offsetX) / canvasViewport.zoom;
+            var networkY = (y - canvasViewport.offsetY) / canvasViewport.zoom;
+
+            var overPacket = false;
+            var links = network.getLinks();
+
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i];
+                var messageCount = link.getMessageCount();
+                for (var j = 0; j < messageCount; j++) {
+                    if (link.messageHasCoords(j, networkX, networkY)) {
+                        overPacket = true;
+                        break;
+                    }
+                }
+                if (overPacket) break;
+            }
+
+            canvas.style.cursor = overPacket ? 'pointer' : (spacePressed ? 'grab' : 'default');
+        });
+
+        // Add click handler for packet inspection with larger click area
+        canvas.addEventListener('click', function(e) {
+            // Don't handle clicks if we were panning
+            if (canvasViewport.isDragging) return;
+
+            // Don't handle if space is pressed (pan mode)
+            if (spacePressed) return;
+
+            // Get canvas coordinates accounting for viewport
+            var rect = canvas.getBoundingClientRect();
+            var scaleX = canvas.width / rect.width;
+            var scaleY = canvas.height / rect.height;
+            var x = (e.clientX - rect.left) * scaleX;
+            var y = (e.clientY - rect.top) * scaleY;
+
+            // Transform to network coordinates (accounting for zoom/pan)
+            var networkX = (x - canvasViewport.offsetX) / canvasViewport.zoom;
+            var networkY = (y - canvasViewport.offsetY) / canvasViewport.zoom;
+
+            // Check if click was on a packet (with larger hit area)
+            if (network && packetInspector) {
+                var links = network.getLinks();
+                var clickRadius = 20; // Larger click area for easier targeting
+
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    var messageCount = link.getMessageCount();
+
+                    for (var j = 0; j < messageCount; j++) {
+                        // Get message position
+                        var message = link.getMessage(j);
+                        var img = message.getImage();
+
+                        // Check with expanded bounds for easier clicking
+                        // Original bounds check
+                        if (link.messageHasCoords(j, networkX, networkY)) {
+                            packetInspector.inspectMessage(message);
+                            e.stopPropagation();
+                            return;
+                        }
+
+                        // Also check with expanded hit area (20px radius around packet)
+                        for (var dx = -clickRadius; dx <= clickRadius; dx += 5) {
+                            for (var dy = -clickRadius; dy <= clickRadius; dy += 5) {
+                                if (Math.sqrt(dx*dx + dy*dy) <= clickRadius) {
+                                    if (link.messageHasCoords(j, networkX + dx, networkY + dy)) {
+                                        packetInspector.inspectMessage(message);
+                                        e.stopPropagation();
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function updateZoomIndicator() {
+        var indicator = document.getElementById('zoomLevel');
+        if (indicator) {
+            indicator.textContent = Math.round(canvasViewport.zoom * 100) + '%';
+        }
+    }
+    
+    function zoomIn() {
+        canvasViewport.zoom = Math.min(canvasViewport.zoom * 1.2, canvasViewport.maxZoom);
+        updateZoomIndicator();
+        if (network) network.render();
+    }
+    
+    // Toggle labels dropdown menu
+    function toggleLabelsMenu(event) {
+        if (event) event.stopPropagation();
+        var dropdown = document.getElementById('labelsDropdown');
+        if (dropdown.style.display === 'none') {
+            // Update checkboxes before showing
+            updateLabelCheckboxes();
+            dropdown.style.display = 'block';
+            
+            // Close when clicking outside
+            setTimeout(function() {
+                document.addEventListener('click', closeLabelsMenu);
+            }, 100);
+        } else {
+            closeLabelsMenu();
+        }
+    }
+    
+    function closeLabelsMenu() {
+        var dropdown = document.getElementById('labelsDropdown');
+        dropdown.style.display = 'none';
+        document.removeEventListener('click', closeLabelsMenu);
+    }
+    
+    // Update checkbox states
+    function updateLabelCheckboxes() {
+        var deviceCheck = document.getElementById('deviceLabelsCheck');
+        var linkCheck = document.getElementById('linkLabelsCheck');
+        if (deviceCheck) deviceCheck.checked = showDeviceLabels;
+        if (linkCheck) linkCheck.checked = showLinkLabels;
+    }
+    
+    // Toggle device labels (names and IPs)
+    function toggleDeviceLabels() {
+        showDeviceLabels = !showDeviceLabels;
+        localStorage.setItem('networkSimShowDeviceLabels', showDeviceLabels);
+        updateLabelCheckboxes();
+        updateLabelsButtonAppearance();
+        if (network) network.render();
+    }
+    
+    // Toggle link interface labels
+    function toggleLinkLabels() {
+        showLinkLabels = !showLinkLabels;
+        localStorage.setItem('networkSimShowLinkLabels', showLinkLabels);
+        updateLabelCheckboxes();
+        updateLabelsButtonAppearance();
+        if (network) network.render();
+    }
+    
+    // Toggle all labels at once
+    function toggleAllLabels(show) {
+        showDeviceLabels = show;
+        showLinkLabels = show;
+        localStorage.setItem('networkSimShowDeviceLabels', showDeviceLabels);
+        localStorage.setItem('networkSimShowLinkLabels', showLinkLabels);
+        updateLabelCheckboxes();
+        updateLabelsButtonAppearance();
+        if (network) network.render();
+    }
+    
+    // Update button appearance based on label states
+    function updateLabelsButtonAppearance() {
+        var btn = document.getElementById('labelsMenuButton');
+        if (btn) {
+            if (showDeviceLabels || showLinkLabels) {
+                // At least one type of label is shown - use blue background
+                btn.style.background = 'rgba(102,126,234,0.3)';
+                btn.onmouseout = function() { this.style.background='rgba(102,126,234,0.3)'; };
+            } else {
+                // No labels shown - use gray background
+                btn.style.background = 'rgba(255,255,255,0.1)';
+                btn.onmouseout = function() { this.style.background='rgba(255,255,255,0.1)'; };
+            }
+        }
+    }
+    
+    function zoomOut() {
+        canvasViewport.zoom = Math.max(canvasViewport.zoom / 1.2, canvasViewport.minZoom);
+        updateZoomIndicator();
+        if (network) network.render();
+    }
+    
+    function resetView() {
+        canvasViewport.zoom = 1;
+        canvasViewport.offsetX = 0;
+        canvasViewport.offsetY = 0;
+        updateZoomIndicator();
+        if (network) network.render();
+    }
+    
+    function fitToScreen() {
+        if (!network) return;
+        
+        // Get bounds of all network elements
+        var bounds = network.getBounds();
+        if (!bounds) {
+            resetView();
+            return;
+        }
+        
+        var canvas = document.getElementById("simcanvas");
+        var padding = 50;
+        
+        var scaleX = (canvas.width - padding * 2) / bounds.width;
+        var scaleY = (canvas.height - padding * 2) / bounds.height;
+        canvasViewport.zoom = Math.min(scaleX, scaleY, 1);
+        
+        canvasViewport.offsetX = (canvas.width - bounds.width * canvasViewport.zoom) / 2 - bounds.minX * canvasViewport.zoom;
+        canvasViewport.offsetY = (canvas.height - bounds.height * canvasViewport.zoom) / 2 - bounds.minY * canvasViewport.zoom;
+        
+        updateZoomIndicator();
+        network.render();
+    }
+    </script>
+
+    // Firewall-specific functions
+    // Firewall functions are now properly implemented in Firewall.js
+    // The UI dialogs provide a better experience than alerts
+    
+    // Submenu toggle function for expandable menus with viewport awareness
+    function toggleSubmenu(submenuId) {
+        var itemsDiv = document.getElementById(submenuId + '_items');
+        var arrowSpan = document.getElementById(submenuId + '_arrow');
+        
+        if (itemsDiv && arrowSpan) {
+            if (itemsDiv.style.display === 'none') {
+                itemsDiv.style.display = 'block';
+                arrowSpan.innerHTML = '▼';
+                
+                // After expanding, check if menu goes off screen
+                var menuDiv = itemsDiv.closest('[id^="uimenu_"]');
+                if (menuDiv) {
+                    var rect = menuDiv.getBoundingClientRect();
+                    var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+                    
+                    // If menu bottom goes below viewport, adjust position
+                    if (rect.bottom > viewportHeight - 10) {
+                        var currentTop = parseInt(menuDiv.style.top) || 0;
+                        var overflow = rect.bottom - (viewportHeight - 10);
+                        var newTop = Math.max(10, currentTop - overflow);
+                        menuDiv.style.top = newTop + 'px';
+                        
+                        // If still doesn't fit, add scrolling
+                        if (rect.height > viewportHeight - 20) {
+                            menuDiv.style.maxHeight = (viewportHeight - 20) + 'px';
+                            menuDiv.style.overflowY = 'auto';
+                            menuDiv.style.overflowX = 'hidden';
+                        }
+                    }
+                }
+            } else {
+                itemsDiv.style.display = 'none';
+                arrowSpan.innerHTML = '▶';
+            }
+        }
+    }
+    
+    function toggleServerMenu() {
+        var menu = document.getElementById('serverMenu');
+        menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+    
+    function toggleDeviceMenu() {
+        var menu = document.getElementById('deviceMenu');
+        menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+    
+    function toggleFileMenu() {
+        var menu = document.getElementById('fileMenu');
+        menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+    
+    // Close dropdown menus when clicking outside
+    document.addEventListener('click', function(event) {
+        // Check if click is outside all dropdown menus
+        var fileMenu = document.getElementById('fileMenu');
+        var serverMenu = document.getElementById('serverMenu');
+        var deviceMenu = document.getElementById('deviceMenu');
+        
+        // Close file menu if clicking outside
+        if (fileMenu && fileMenu.style.display === 'block') {
+            var fileButton = event.target.closest('[onclick*="toggleFileMenu"]');
+            var fileDropdown = event.target.closest('#fileMenu');
+            if (!fileButton && !fileDropdown) {
+                fileMenu.style.display = 'none';
+            }
+        }
+        
+        // Close server menu if clicking outside
+        if (serverMenu && serverMenu.style.display === 'block') {
+            var serverButton = event.target.closest('[onclick*="toggleServerMenu"]');
+            var serverDropdown = event.target.closest('#serverMenu');
+            if (!serverButton && !serverDropdown) {
+                serverMenu.style.display = 'none';
+            }
+        }
+        
+        // Close device menu if clicking outside
+        if (deviceMenu && deviceMenu.style.display === 'block') {
+            var deviceButton = event.target.closest('[onclick*="toggleDeviceMenu"]');
+            var deviceDropdown = event.target.closest('#deviceMenu');
+            if (!deviceButton && !deviceDropdown) {
+                deviceMenu.style.display = 'none';
+            }
+        }
+    });
+    
+    // Function to create a new device with specific type
+    function newDeviceElement(deviceType) {
+        // Calculate position accounting for viewport
+        var x = 100;
+        var y = 100;
+        
+        if (typeof canvasViewport !== 'undefined') {
+            // Place new elements at center of current view
+            var canvas = document.getElementById("simcanvas");
+            if (canvas) {
+                x = (canvas.width / 2 - canvasViewport.offsetX) / canvasViewport.zoom;
+                y = (canvas.height / 2 - canvasViewport.offsetY) / canvasViewport.zoom;
+            }
+        }
+        
+        // Create computer with device type
+        network.createComputerWithType(x, y, deviceType);
+        
+        // Mark network as changed for auto-save
+        if (typeof markAsChanged === 'function') {
+            markAsChanged();
+        }
+    }
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('#serverMenu') && !e.target.closest('[onclick*="toggleServerMenu"]')) {
+            document.getElementById('serverMenu').style.display = 'none';
+        }
+        if (!e.target.closest('#deviceMenu') && !e.target.closest('[onclick*="toggleDeviceMenu"]')) {
+            document.getElementById('deviceMenu').style.display = 'none';
+        }
+    });
+    </script>
+
+    <script>

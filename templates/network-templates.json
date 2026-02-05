@@ -1,0 +1,795 @@
+{
+  "templates": {
+    "home_network_advanced": {
+      "name": "\ud83c\udfe0 Advanced Home Network",
+      "description": "Home network with IoT devices, guest WiFi, and NAS",
+      "category": "basic",
+      "difficulty": "Intermediate",
+      "author": "NetworkSimulator Team",
+      "version": "1.0",
+      "elements": [
+        {
+          "id": 0,
+          "type": "router",
+          "x": 400,
+          "y": 50,
+          "name": "ISP Router"
+        },
+        {
+          "id": 1,
+          "type": "router",
+          "x": 400,
+          "y": 200,
+          "name": "Home Router (WiFi)"
+        },
+        {
+          "id": 2,
+          "type": "switch",
+          "x": 400,
+          "y": 350,
+          "name": "Gigabit Switch",
+          "ports": 8
+        },
+        {
+          "id": 3,
+          "type": "host",
+          "x": 150,
+          "y": 500,
+          "name": "Desktop PC"
+        },
+        {
+          "id": 4,
+          "type": "host",
+          "x": 250,
+          "y": 500,
+          "name": "NAS Storage"
+        },
+        {
+          "id": 5,
+          "type": "host",
+          "x": 350,
+          "y": 500,
+          "name": "Smart TV"
+        },
+        {
+          "id": 6,
+          "type": "host",
+          "x": 450,
+          "y": 500,
+          "name": "Game Console"
+        },
+        {
+          "id": 7,
+          "type": "host",
+          "x": 550,
+          "y": 500,
+          "name": "Laptop (WiFi)"
+        },
+        {
+          "id": 8,
+          "type": "host",
+          "x": 650,
+          "y": 500,
+          "name": "Smartphone"
+        },
+        {
+          "id": 9,
+          "type": "host",
+          "x": 200,
+          "y": 200,
+          "name": "IoT Hub"
+        },
+        {
+          "id": 10,
+          "type": "host",
+          "x": 600,
+          "y": 200,
+          "name": "Security Camera"
+        }
+      ],
+      "links": [
+        {
+          "from": 0,
+          "to": 1,
+          "fromPort": 0,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "fromPort": 1,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "fromPort": 1,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 4,
+          "fromPort": 2,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 5,
+          "fromPort": 3,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 6,
+          "fromPort": 4,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 7,
+          "fromPort": 2,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 8,
+          "fromPort": 3,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 9,
+          "fromPort": 4,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 10,
+          "fromPort": 5,
+          "toPort": 0
+        }
+      ]
+    },
+    "small_office": {
+      "name": "\ud83c\udfe2 Small Office",
+      "description": "Small office setup with server, workstations, and printer",
+      "category": "enterprise",
+      "difficulty": "Beginner",
+      "author": "NetworkSimulator Team",
+      "version": "1.0",
+      "elements": [
+        {
+          "id": 0,
+          "type": "router",
+          "x": 400,
+          "y": 50,
+          "name": "Internet Gateway"
+        },
+        {
+          "id": 1,
+          "type": "firewall",
+          "x": 400,
+          "y": 150,
+          "name": "Office Firewall"
+        },
+        {
+          "id": 2,
+          "type": "switch",
+          "x": 400,
+          "y": 250,
+          "name": "Office Switch",
+          "ports": 16
+        },
+        {
+          "id": 3,
+          "type": "host",
+          "x": 200,
+          "y": 350,
+          "name": "File Server"
+        },
+        {
+          "id": 4,
+          "type": "host",
+          "x": 300,
+          "y": 350,
+          "name": "Print Server"
+        },
+        {
+          "id": 5,
+          "type": "host",
+          "x": 500,
+          "y": 350,
+          "name": "Backup Server"
+        },
+        {
+          "id": 6,
+          "type": "host",
+          "x": 600,
+          "y": 350,
+          "name": "Mail Server"
+        },
+        {
+          "id": 7,
+          "type": "host",
+          "x": 150,
+          "y": 450,
+          "name": "Workstation 1"
+        },
+        {
+          "id": 8,
+          "type": "host",
+          "x": 250,
+          "y": 450,
+          "name": "Workstation 2"
+        },
+        {
+          "id": 9,
+          "type": "host",
+          "x": 350,
+          "y": 450,
+          "name": "Workstation 3"
+        },
+        {
+          "id": 10,
+          "type": "host",
+          "x": 450,
+          "y": 450,
+          "name": "Workstation 4"
+        },
+        {
+          "id": 11,
+          "type": "host",
+          "x": 550,
+          "y": 450,
+          "name": "Manager PC"
+        },
+        {
+          "id": 12,
+          "type": "host",
+          "x": 650,
+          "y": 450,
+          "name": "Reception PC"
+        }
+      ],
+      "links": [
+        {
+          "from": 0,
+          "to": 1,
+          "fromPort": 0,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "fromPort": 1,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "fromPort": 1,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 4,
+          "fromPort": 2,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 5,
+          "fromPort": 3,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 6,
+          "fromPort": 4,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 7,
+          "fromPort": 5,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 8,
+          "fromPort": 6,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 9,
+          "fromPort": 7,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 10,
+          "fromPort": 8,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 11,
+          "fromPort": 9,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 12,
+          "fromPort": 10,
+          "toPort": 0
+        }
+      ]
+    },
+    "lab_network": {
+      "name": "\ud83d\udd2c Computer Lab",
+      "description": "School computer lab with instructor station",
+      "category": "educational",
+      "difficulty": "Beginner",
+      "author": "NetworkSimulator Team",
+      "version": "1.0",
+      "elements": [
+        {
+          "id": 0,
+          "type": "router",
+          "x": 400,
+          "y": 50,
+          "name": "School Router"
+        },
+        {
+          "id": 1,
+          "type": "switch",
+          "x": 400,
+          "y": 150,
+          "name": "Lab Switch",
+          "ports": 24
+        },
+        {
+          "id": 2,
+          "type": "host",
+          "x": 400,
+          "y": 250,
+          "name": "Instructor PC"
+        },
+        {
+          "id": 3,
+          "type": "host",
+          "x": 100,
+          "y": 350,
+          "name": "Student PC 1"
+        },
+        {
+          "id": 4,
+          "type": "host",
+          "x": 200,
+          "y": 350,
+          "name": "Student PC 2"
+        },
+        {
+          "id": 5,
+          "type": "host",
+          "x": 300,
+          "y": 350,
+          "name": "Student PC 3"
+        },
+        {
+          "id": 6,
+          "type": "host",
+          "x": 400,
+          "y": 350,
+          "name": "Student PC 4"
+        },
+        {
+          "id": 7,
+          "type": "host",
+          "x": 500,
+          "y": 350,
+          "name": "Student PC 5"
+        },
+        {
+          "id": 8,
+          "type": "host",
+          "x": 600,
+          "y": 350,
+          "name": "Student PC 6"
+        },
+        {
+          "id": 9,
+          "type": "host",
+          "x": 700,
+          "y": 350,
+          "name": "Student PC 7"
+        },
+        {
+          "id": 10,
+          "type": "host",
+          "x": 100,
+          "y": 450,
+          "name": "Student PC 8"
+        },
+        {
+          "id": 11,
+          "type": "host",
+          "x": 200,
+          "y": 450,
+          "name": "Student PC 9"
+        },
+        {
+          "id": 12,
+          "type": "host",
+          "x": 300,
+          "y": 450,
+          "name": "Student PC 10"
+        },
+        {
+          "id": 13,
+          "type": "host",
+          "x": 400,
+          "y": 450,
+          "name": "File Server"
+        },
+        {
+          "id": 14,
+          "type": "host",
+          "x": 500,
+          "y": 450,
+          "name": "Student PC 11"
+        },
+        {
+          "id": 15,
+          "type": "host",
+          "x": 600,
+          "y": 450,
+          "name": "Student PC 12"
+        },
+        {
+          "id": 16,
+          "type": "host",
+          "x": 700,
+          "y": 450,
+          "name": "Network Printer"
+        }
+      ],
+      "links": [
+        {
+          "from": 0,
+          "to": 1,
+          "fromPort": 0,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "fromPort": 1,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 3,
+          "fromPort": 2,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 4,
+          "fromPort": 3,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 5,
+          "fromPort": 4,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 6,
+          "fromPort": 5,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 7,
+          "fromPort": 6,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 8,
+          "fromPort": 7,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 9,
+          "fromPort": 8,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 10,
+          "fromPort": 9,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 11,
+          "fromPort": 10,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 12,
+          "fromPort": 11,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 13,
+          "fromPort": 12,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 14,
+          "fromPort": 13,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 15,
+          "fromPort": 14,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 16,
+          "fromPort": 15,
+          "toPort": 0
+        }
+      ]
+    },
+    "datacenter_basic": {
+      "name": "\ud83d\uddc4\ufe0f Basic Data Center",
+      "description": "Simple data center with redundant paths",
+      "category": "enterprise",
+      "difficulty": "Advanced",
+      "author": "NetworkSimulator Team",
+      "version": "1.0",
+      "elements": [
+        {
+          "id": 0,
+          "type": "router",
+          "x": 300,
+          "y": 50,
+          "name": "ISP Link 1"
+        },
+        {
+          "id": 1,
+          "type": "router",
+          "x": 500,
+          "y": 50,
+          "name": "ISP Link 2"
+        },
+        {
+          "id": 2,
+          "type": "firewall",
+          "x": 300,
+          "y": 150,
+          "name": "Firewall 1"
+        },
+        {
+          "id": 3,
+          "type": "firewall",
+          "x": 500,
+          "y": 150,
+          "name": "Firewall 2"
+        },
+        {
+          "id": 4,
+          "type": "switch",
+          "x": 400,
+          "y": 250,
+          "name": "Core Switch",
+          "ports": 24
+        },
+        {
+          "id": 5,
+          "type": "switch",
+          "x": 200,
+          "y": 350,
+          "name": "Rack 1 Switch",
+          "ports": 24
+        },
+        {
+          "id": 6,
+          "type": "switch",
+          "x": 400,
+          "y": 350,
+          "name": "Rack 2 Switch",
+          "ports": 24
+        },
+        {
+          "id": 7,
+          "type": "switch",
+          "x": 600,
+          "y": 350,
+          "name": "Rack 3 Switch",
+          "ports": 24
+        },
+        {
+          "id": 8,
+          "type": "host",
+          "x": 150,
+          "y": 450,
+          "name": "Web Server 1"
+        },
+        {
+          "id": 9,
+          "type": "host",
+          "x": 250,
+          "y": 450,
+          "name": "Web Server 2"
+        },
+        {
+          "id": 10,
+          "type": "host",
+          "x": 350,
+          "y": 450,
+          "name": "Database 1"
+        },
+        {
+          "id": 11,
+          "type": "host",
+          "x": 450,
+          "y": 450,
+          "name": "Database 2"
+        },
+        {
+          "id": 12,
+          "type": "host",
+          "x": 550,
+          "y": 450,
+          "name": "Storage 1"
+        },
+        {
+          "id": 13,
+          "type": "host",
+          "x": 650,
+          "y": 450,
+          "name": "Storage 2"
+        }
+      ],
+      "links": [
+        {
+          "from": 0,
+          "to": 2,
+          "fromPort": 0,
+          "toPort": 0
+        },
+        {
+          "from": 1,
+          "to": 3,
+          "fromPort": 0,
+          "toPort": 0
+        },
+        {
+          "from": 2,
+          "to": 4,
+          "fromPort": 1,
+          "toPort": 0
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "fromPort": 1,
+          "toPort": 1
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "fromPort": 2,
+          "toPort": 0
+        },
+        {
+          "from": 4,
+          "to": 6,
+          "fromPort": 3,
+          "toPort": 0
+        },
+        {
+          "from": 4,
+          "to": 7,
+          "fromPort": 4,
+          "toPort": 0
+        },
+        {
+          "from": 5,
+          "to": 8,
+          "fromPort": 1,
+          "toPort": 0
+        },
+        {
+          "from": 5,
+          "to": 9,
+          "fromPort": 2,
+          "toPort": 0
+        },
+        {
+          "from": 6,
+          "to": 10,
+          "fromPort": 1,
+          "toPort": 0
+        },
+        {
+          "from": 6,
+          "to": 11,
+          "fromPort": 2,
+          "toPort": 0
+        },
+        {
+          "from": 7,
+          "to": 12,
+          "fromPort": 1,
+          "toPort": 0
+        },
+        {
+          "from": 7,
+          "to": 13,
+          "fromPort": 2,
+          "toPort": 0
+        }
+      ]
+    },
+    "vlan_office": {
+      "name": "\ud83c\udfe2 VLAN Office Network",
+      "description": "Office network with Staff and Guest VLANs for network segmentation",
+      "category": "educational",
+      "difficulty": "Intermediate",
+      "author": "NetworkSimulator Team",
+      "version": "1.0",
+      "networkData": "{\"version\":1,\"lastusedid\":60,\"elements\":[{\"version\":1,\"id\":1,\"type\":\"switch\",\"drawable\":{\"version\":1,\"id\":2,\"X\":400,\"Y\":250},\"connectable\":{\"version\":1,\"id\":3,\"connectors\":[{\"version\":1,\"id\":4,\"vlanId\":10,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":5,\"vlanId\":10,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":6,\"vlanId\":20,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":7,\"vlanId\":20,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":8,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":9,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":10,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":11,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]}],\"macaddresses\":[\"AA:BB:CC:DD:EE:01\"],\"ipinfos\":[],\"macmode\":0,\"ipmode\":0,\"trafficManager\":{\"version\":1,\"id\":12,\"limitbroadcast\":false,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":8,\"apps\":[],\"name\":\"Office Switch\",\"group\":null,\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}},\"vlanDatabase\":{\"1\":{\"name\":\"default\",\"status\":\"active\"},\"10\":{\"name\":\"Staff\",\"status\":\"active\"},\"20\":{\"name\":\"Guest\",\"status\":\"active\"}}},{\"version\":1,\"id\":20,\"type\":\"computer\",\"drawable\":{\"version\":1,\"id\":21,\"X\":200,\"Y\":80},\"connectable\":{\"version\":1,\"id\":22,\"connectors\":[{\"version\":1,\"id\":23,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]}],\"macaddresses\":[\"11:22:33:44:55:01\"],\"ipinfos\":[{\"IPv4\":-1062731510,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":24,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DHCPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"DHCPClient\",\"ifacepos\":0},{\"app\":{\"version\":2,\"id\":\"DNSClient\",\"ifacepos\":0,\"dnsCache\":{}},\"port\":-1,\"fixed\":false,\"type\":\"DNSClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"id\":\"HTTPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"HTTPClient\",\"ifacepos\":0}],\"name\":\"Staff-PC1\",\"group\":\"Staff\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"dot1x\":{\"enabled\":false,\"username\":\"\",\"password\":\"\",\"authState\":\"DISCONNECTED\",\"autoConnect\":true}},{\"version\":1,\"id\":30,\"type\":\"computer\",\"drawable\":{\"version\":1,\"id\":31,\"X\":600,\"Y\":80},\"connectable\":{\"version\":1,\"id\":32,\"connectors\":[{\"version\":1,\"id\":33,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]}],\"macaddresses\":[\"11:22:33:44:55:02\"],\"ipinfos\":[{\"IPv4\":-1062731500,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":34,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DHCPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"DHCPClient\",\"ifacepos\":0},{\"app\":{\"version\":2,\"id\":\"DNSClient\",\"ifacepos\":0,\"dnsCache\":{}},\"port\":-1,\"fixed\":false,\"type\":\"DNSClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"id\":\"HTTPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"HTTPClient\",\"ifacepos\":0}],\"name\":\"Staff-PC2\",\"group\":\"Staff\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"dot1x\":{\"enabled\":false,\"username\":\"\",\"password\":\"\",\"authState\":\"DISCONNECTED\",\"autoConnect\":true}},{\"version\":1,\"id\":40,\"type\":\"computer\",\"drawable\":{\"version\":1,\"id\":41,\"X\":200,\"Y\":420},\"connectable\":{\"version\":1,\"id\":42,\"connectors\":[{\"version\":1,\"id\":43,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]}],\"macaddresses\":[\"11:22:33:44:55:03\"],\"ipinfos\":[{\"IPv4\":-1062731246,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":44,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DHCPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"DHCPClient\",\"ifacepos\":0},{\"app\":{\"version\":2,\"id\":\"DNSClient\",\"ifacepos\":0,\"dnsCache\":{}},\"port\":-1,\"fixed\":false,\"type\":\"DNSClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"id\":\"HTTPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"HTTPClient\",\"ifacepos\":0}],\"name\":\"Guest-Laptop1\",\"group\":\"Guest\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"dot1x\":{\"enabled\":false,\"username\":\"\",\"password\":\"\",\"authState\":\"DISCONNECTED\",\"autoConnect\":true}},{\"version\":1,\"id\":45,\"type\":\"computer\",\"drawable\":{\"version\":1,\"id\":46,\"X\":600,\"Y\":420},\"connectable\":{\"version\":1,\"id\":47,\"connectors\":[{\"version\":1,\"id\":48,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]}],\"macaddresses\":[\"11:22:33:44:55:04\"],\"ipinfos\":[{\"IPv4\":-1062731236,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":49,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DHCPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"DHCPClient\",\"ifacepos\":0},{\"app\":{\"version\":2,\"id\":\"DNSClient\",\"ifacepos\":0,\"dnsCache\":{}},\"port\":-1,\"fixed\":false,\"type\":\"DNSClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"id\":\"HTTPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"HTTPClient\",\"ifacepos\":0}],\"name\":\"Guest-Laptop2\",\"group\":\"Guest\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"dot1x\":{\"enabled\":false,\"username\":\"\",\"password\":\"\",\"authState\":\"DISCONNECTED\",\"autoConnect\":true}}],\"links\":[{\"version\":1,\"id\":25,\"connector1\":23,\"connector2\":4},{\"version\":1,\"id\":35,\"connector1\":33,\"connector2\":5},{\"version\":1,\"id\":50,\"connector1\":43,\"connector2\":6},{\"version\":1,\"id\":51,\"connector1\":48,\"connector2\":7}],\"lastuseddinamycport\":60000,\"lastMessageId\":0}"
+    },
+    "subnetting_demo": {
+      "name": "\ud83c\udf10 Subnetting & Routing",
+      "description": "Two subnets (192.168.1.0/26 and 192.168.1.64/26) connected via routers",
+      "category": "educational",
+      "difficulty": "Intermediate",
+      "author": "NetworkSimulator Team",
+      "version": "1.0",
+      "networkData": "{\"version\":1,\"lastusedid\":212,\"saveTimestamp\":1762017624857,\"saveDate\":\"2025-11-01T17:20:24.857Z\",\"elements\":[{\"version\":1,\"id\":1,\"type\":\"router\",\"drawable\":{\"version\":1,\"id\":2,\"X\":170.97490483584278,\"Y\":298.432028055978},\"connectable\":{\"version\":1,\"id\":3,\"connectors\":[{\"version\":1,\"id\":4,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":5,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]}],\"macaddresses\":[\"AA:BB:CC:11:11:01\",\"AA:BB:CC:11:11:02\"],\"ipinfos\":[{\"IPv4\":-1062731519,\"DNS1\":null,\"DNS2\":null,\"netmask\":-64,\"static\":true},{\"IPv4\":167772161,\"DNS1\":null,\"DNS2\":null,\"netmask\":-4,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":6,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[{\"dst\":\"192.168.1.64\",\"gw\":\"10.0.0.2\",\"mask\":\"255.255.255.192\"}]},\"performNAT\":false},\"ports\":2,\"apps\":[],\"name\":\"Router 1 (Subnet 1 Gateway)\",\"group\":null,\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"isRogueRouter\":false,\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}}},{\"version\":1,\"id\":10,\"type\":\"switch\",\"drawable\":{\"version\":1,\"id\":11,\"X\":388.00203961699344,\"Y\":201.97519865516767},\"connectable\":{\"version\":1,\"id\":12,\"connectors\":[{\"version\":1,\"id\":13,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":14,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":15,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":16,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":17,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":18,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":19,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":20,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]}],\"macaddresses\":[\"7D:16:40:AC:A5:01\"],\"ipinfos\":[],\"macmode\":0,\"ipmode\":2,\"trafficManager\":{\"version\":1,\"id\":21,\"limitbroadcast\":false,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":8,\"apps\":[],\"name\":\"Switch 1\",\"group\":null,\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}},\"vlanDatabase\":{\"1\":{\"name\":\"default\",\"status\":\"active\"}}},{\"version\":1,\"id\":30,\"type\":\"computer\",\"drawable\":{\"version\":1,\"id\":31,\"X\":100,\"Y\":80},\"connectable\":{\"version\":1,\"id\":32,\"connectors\":[{\"version\":1,\"id\":33,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]}],\"macaddresses\":[\"11:22:33:44:55:01\"],\"ipinfos\":[{\"IPv4\":-1062731518,\"DNS1\":null,\"DNS2\":null,\"netmask\":-64,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":34,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":\"192.168.1.1\",\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DHCPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"DHCPClient\",\"ifacepos\":0},{\"app\":{\"version\":2,\"id\":\"DNSClient\",\"ifacepos\":0,\"dnsCache\":{}},\"port\":-1,\"fixed\":false,\"type\":\"DNSClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"id\":\"HTTPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"HTTPClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"config\":{\"username\":\"\",\"password\":\"\",\"emailAddress\":\"\",\"smtpServer\":\"\",\"smtpPort\":25,\"pop3Server\":\"\",\"pop3Port\":110,\"configured\":false},\"folders\":{\"inbox\":[],\"sent\":[],\"drafts\":[],\"trash\":[]},\"currentFolder\":\"inbox\"},\"port\":-1,\"fixed\":false,\"type\":\"EmailClient\",\"ifacepos\":0}],\"name\":\"Host 1 (192.168.1.2/26)\",\"group\":null,\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"dot1x\":{\"enabled\":false,\"username\":\"\",\"password\":\"\",\"authState\":\"DISCONNECTED\",\"autoConnect\":true}},{\"version\":1,\"id\":40,\"type\":\"computer\",\"drawable\":{\"version\":1,\"id\":41,\"X\":300,\"Y\":80},\"connectable\":{\"version\":1,\"id\":42,\"connectors\":[{\"version\":1,\"id\":43,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]}],\"macaddresses\":[\"11:22:33:44:55:02\"],\"ipinfos\":[{\"IPv4\":-1062731517,\"DNS1\":null,\"DNS2\":null,\"netmask\":-64,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":44,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":\"192.168.1.1\",\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DHCPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"DHCPClient\",\"ifacepos\":0},{\"app\":{\"version\":2,\"id\":\"DNSClient\",\"ifacepos\":0,\"dnsCache\":{}},\"port\":-1,\"fixed\":false,\"type\":\"DNSClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"id\":\"HTTPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"HTTPClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"config\":{\"username\":\"\",\"password\":\"\",\"emailAddress\":\"\",\"smtpServer\":\"\",\"smtpPort\":25,\"pop3Server\":\"\",\"pop3Port\":110,\"configured\":false},\"folders\":{\"inbox\":[],\"sent\":[],\"drafts\":[],\"trash\":[]},\"currentFolder\":\"inbox\"},\"port\":-1,\"fixed\":false,\"type\":\"EmailClient\",\"ifacepos\":0}],\"name\":\"Host 2 (192.168.1.3/26)\",\"group\":null,\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"dot1x\":{\"enabled\":false,\"username\":\"\",\"password\":\"\",\"authState\":\"DISCONNECTED\",\"autoConnect\":true}},{\"version\":1,\"id\":100,\"type\":\"switch\",\"drawable\":{\"version\":1,\"id\":101,\"X\":400,\"Y\":300},\"connectable\":{\"version\":1,\"id\":102,\"connectors\":[{\"version\":1,\"id\":103,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":104,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":105,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":106,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]}],\"macaddresses\":[\"7D:16:40:AC:A5:99\"],\"ipinfos\":[],\"macmode\":0,\"ipmode\":2,\"trafficManager\":{\"version\":1,\"id\":107,\"limitbroadcast\":false,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":4,\"apps\":[],\"name\":\"WAN Switch (10.0.0.0/30)\",\"group\":null,\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}},\"vlanDatabase\":{\"1\":{\"name\":\"default\",\"status\":\"active\"}}},{\"version\":1,\"id\":150,\"type\":\"router\",\"drawable\":{\"version\":1,\"id\":151,\"X\":600,\"Y\":300},\"connectable\":{\"version\":1,\"id\":152,\"connectors\":[{\"version\":1,\"id\":153,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]},{\"version\":1,\"id\":154,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]}],\"macaddresses\":[\"AA:BB:CC:22:22:01\",\"AA:BB:CC:22:22:02\"],\"ipinfos\":[{\"IPv4\":-1062731455,\"DNS1\":null,\"DNS2\":null,\"netmask\":-64,\"static\":true},{\"IPv4\":167772162,\"DNS1\":null,\"DNS2\":null,\"netmask\":-4,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":155,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[{\"dst\":\"192.168.1.0\",\"gw\":\"10.0.0.1\",\"mask\":\"255.255.255.192\"}]},\"performNAT\":false},\"ports\":2,\"apps\":[],\"name\":\"Router 2 (Subnet 2 Gateway)\",\"group\":null,\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"isRogueRouter\":false,\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}}},{\"version\":1,\"id\":180,\"type\":\"computer\",\"drawable\":{\"version\":1,\"id\":181,\"X\":500,\"Y\":80},\"connectable\":{\"version\":1,\"id\":182,\"connectors\":[{\"version\":1,\"id\":183,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]}],\"macaddresses\":[\"11:22:33:44:55:03\"],\"ipinfos\":[{\"IPv4\":-1062731454,\"DNS1\":null,\"DNS2\":null,\"netmask\":-64,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":184,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":\"192.168.1.65\",\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DHCPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"DHCPClient\",\"ifacepos\":0},{\"app\":{\"version\":2,\"id\":\"DNSClient\",\"ifacepos\":0,\"dnsCache\":{}},\"port\":-1,\"fixed\":false,\"type\":\"DNSClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"id\":\"HTTPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"HTTPClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"config\":{\"username\":\"\",\"password\":\"\",\"emailAddress\":\"\",\"smtpServer\":\"\",\"smtpPort\":25,\"pop3Server\":\"\",\"pop3Port\":110,\"configured\":false},\"folders\":{\"inbox\":[],\"sent\":[],\"drafts\":[],\"trash\":[]},\"currentFolder\":\"inbox\"},\"port\":-1,\"fixed\":false,\"type\":\"EmailClient\",\"ifacepos\":0}],\"name\":\"Host 3 (192.168.1.66/26)\",\"group\":null,\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"dot1x\":{\"enabled\":false,\"username\":\"\",\"password\":\"\",\"authState\":\"DISCONNECTED\",\"autoConnect\":true}},{\"version\":1,\"id\":190,\"type\":\"computer\",\"drawable\":{\"version\":1,\"id\":191,\"X\":700,\"Y\":80},\"connectable\":{\"version\":1,\"id\":192,\"connectors\":[{\"version\":1,\"id\":193,\"vlanId\":1,\"portMode\":\"access\",\"nativeVlan\":1,\"allowedVlans\":[1]}],\"macaddresses\":[\"11:22:33:44:55:04\"],\"ipinfos\":[{\"IPv4\":-1062731453,\"DNS1\":null,\"DNS2\":null,\"netmask\":-64,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":194,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":\"192.168.1.65\",\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DHCPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"DHCPClient\",\"ifacepos\":0},{\"app\":{\"version\":2,\"id\":\"DNSClient\",\"ifacepos\":0,\"dnsCache\":{}},\"port\":-1,\"fixed\":false,\"type\":\"DNSClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"id\":\"HTTPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"HTTPClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"config\":{\"username\":\"\",\"password\":\"\",\"emailAddress\":\"\",\"smtpServer\":\"\",\"smtpPort\":25,\"pop3Server\":\"\",\"pop3Port\":110,\"configured\":false},\"folders\":{\"inbox\":[],\"sent\":[],\"drafts\":[],\"trash\":[]},\"currentFolder\":\"inbox\"},\"port\":-1,\"fixed\":false,\"type\":\"EmailClient\",\"ifacepos\":0}],\"name\":\"Host 4 (192.168.1.67/26)\",\"group\":null,\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"dot1x\":{\"enabled\":false,\"username\":\"\",\"password\":\"\",\"authState\":\"DISCONNECTED\",\"autoConnect\":true}}],\"links\":[{\"version\":1,\"id\":200,\"connector1\":4,\"connector2\":13},{\"version\":1,\"id\":201,\"connector1\":33,\"connector2\":14},{\"version\":1,\"id\":202,\"connector1\":43,\"connector2\":15},{\"version\":1,\"id\":203,\"connector1\":5,\"connector2\":103},{\"version\":1,\"id\":204,\"connector1\":154,\"connector2\":104},{\"version\":1,\"id\":201,\"connector1\":183,\"connector2\":16},{\"version\":1,\"id\":205,\"connector1\":193,\"connector2\":17},{\"version\":1,\"id\":209,\"connector1\":18,\"connector2\":153}]}"
+    },
+    "dhcp_dns_demo": {
+      "name": "\ud83c\udf0d DHCP & DNS Demo",
+      "description": "Complete network with DHCP server, DNS server, HTTP server demonstrating client-server architecture and name resolution",
+      "category": "educational",
+      "difficulty": "Beginner",
+      "author": "NetworkSimulator Team",
+      "version": "1.0",
+      "networkData": "{\"version\":1,\"lastusedid\":338,\"saveTimestamp\":1758117765877,\"saveDate\":\"2025-09-17T14:02:45.877Z\",\"elements\":[{\"version\":1,\"id\":10,\"type\":\"computer\",\"drawable\":{\"version\":1,\"id\":14,\"X\":858,\"Y\":320},\"connectable\":{\"version\":1,\"id\":11,\"connectors\":[{\"version\":1,\"id\":13}],\"macaddresses\":[\"1C:E2:E7:58:D6:6E\"],\"ipinfos\":[{\"IPv4\":null,\"DNS1\":null,\"DNS2\":null,\"netmask\":null,\"static\":false}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":12,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":\"192.168.1.1\",\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DHCPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"DHCPClient\",\"ifacepos\":0},{\"app\":{\"version\":2,\"id\":\"DNSClient\",\"ifacepos\":0,\"dnsCache\":{\"isp.com\":{\"ip\":\"67.12.240.4\",\"status\":\"resolved\",\"timestamp\":\"2025-09-10T20:00:06.496Z\"}}},\"port\":-1,\"fixed\":false,\"type\":\"DNSClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"id\":\"HTTPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"HTTPClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"config\":{\"username\":\"\",\"password\":\"\",\"emailAddress\":\"\",\"smtpServer\":\"\",\"smtpPort\":25,\"pop3Server\":\"\",\"pop3Port\":110,\"configured\":false},\"folders\":{\"inbox\":[],\"sent\":[],\"drafts\":[],\"trash\":[]},\"currentFolder\":\"inbox\"},\"port\":-1,\"fixed\":false,\"type\":\"EmailClient\",\"ifacepos\":0}],\"name\":\"Desktop 10\",\"group\":\"LAN\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\"},{\"version\":1,\"id\":93,\"type\":\"switch\",\"drawable\":{\"version\":1,\"id\":104,\"X\":793,\"Y\":170},\"connectable\":{\"version\":1,\"id\":94,\"connectors\":[{\"version\":1,\"id\":96},{\"version\":1,\"id\":97},{\"version\":1,\"id\":98},{\"version\":1,\"id\":99},{\"version\":1,\"id\":100},{\"version\":1,\"id\":101},{\"version\":1,\"id\":102},{\"version\":1,\"id\":103}],\"macaddresses\":[\"BD:95:82:14:8B:35\"],\"ipinfos\":[],\"macmode\":0,\"ipmode\":2,\"trafficManager\":{\"version\":1,\"id\":95,\"limitbroadcast\":false,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":8,\"apps\":[],\"name\":\"switch 93\",\"group\":\"LAN\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}}},{\"version\":1,\"id\":110,\"type\":\"dhcpserver\",\"drawable\":{\"version\":1,\"id\":114,\"X\":890,\"Y\":25},\"connectable\":{\"version\":1,\"id\":111,\"connectors\":[{\"version\":1,\"id\":113}],\"macaddresses\":[\"9B:34:05:F7:BF:25\"],\"ipinfos\":[{\"IPv4\":-1062731518,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":112,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DHCPServer\",\"ifacepos\":0,\"initial\":\"100\",\"end\":\"200\",\"gateway\":\"192.168.1.1\",\"dns1\":\"67.12.240.3\",\"dns2\":\"\",\"isRogueMode\":false},\"port\":67,\"fixed\":true,\"type\":\"DHCPServer\",\"ifacepos\":0}],\"name\":\"dhcpserver 110\",\"group\":\"LAN\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\"},{\"version\":1,\"id\":132,\"type\":\"router\",\"drawable\":{\"version\":1,\"id\":137,\"X\":629,\"Y\":77},\"connectable\":{\"version\":1,\"id\":133,\"connectors\":[{\"version\":1,\"id\":135},{\"version\":1,\"id\":136}],\"macaddresses\":[\"B6:F8:72:8B:1B:2B\",\"E4:81:98:BE:EF:AB\"],\"ipinfos\":[{\"IPv4\":1124921364,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true},{\"IPv4\":-1062731519,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":134,\"limitbroadcast\":true,\"performNAT\":true,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":true},\"ports\":2,\"apps\":[],\"name\":\"router 132\",\"group\":\"LAN\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"isRogueRouter\":false,\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}}},{\"version\":1,\"id\":163,\"type\":\"switch\",\"drawable\":{\"version\":1,\"id\":174,\"X\":447,\"Y\":139},\"connectable\":{\"version\":1,\"id\":164,\"connectors\":[{\"version\":1,\"id\":166},{\"version\":1,\"id\":167},{\"version\":1,\"id\":168},{\"version\":1,\"id\":169},{\"version\":1,\"id\":170},{\"version\":1,\"id\":171},{\"version\":1,\"id\":172},{\"version\":1,\"id\":173}],\"macaddresses\":[\"2C:5A:95:3A:83:D5\"],\"ipinfos\":[],\"macmode\":0,\"ipmode\":2,\"trafficManager\":{\"version\":1,\"id\":165,\"limitbroadcast\":false,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":8,\"apps\":[],\"name\":\"switch 163\",\"group\":null,\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}}},{\"version\":1,\"id\":180,\"type\":\"router\",\"drawable\":{\"version\":1,\"id\":185,\"X\":247,\"Y\":226},\"connectable\":{\"version\":1,\"id\":181,\"connectors\":[{\"version\":1,\"id\":183},{\"version\":1,\"id\":184}],\"macaddresses\":[\"A3:BF:7A:2D:6E:22\",\"1D:C9:96:F7:F8:8F\"],\"ipinfos\":[{\"IPv4\":1124921345,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true},{\"IPv4\":1124921346,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":182,\"limitbroadcast\":true,\"performNAT\":true,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":true},\"ports\":2,\"apps\":[],\"name\":\"router 180\",\"group\":\"ISP\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"isRogueRouter\":false,\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}}},{\"version\":1,\"id\":199,\"type\":\"dnsserver\",\"drawable\":{\"version\":1,\"id\":203,\"X\":-35,\"Y\":141},\"connectable\":{\"version\":1,\"id\":200,\"connectors\":[{\"version\":1,\"id\":202}],\"macaddresses\":[\"22:8F:3F:C2:65:41\"],\"ipinfos\":[{\"IPv4\":1124921347,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":201,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DNSServer\",\"ifacepos\":0,\"dnstable\":[{\"domain\":\"isp.com\",\"ip\":\"67.12.240.4\"}],\"forwarder\":null},\"port\":53,\"fixed\":true,\"type\":\"DNSServer\",\"ifacepos\":0}],\"name\":\"dnsserver 199\",\"group\":\"ISP\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\"},{\"version\":1,\"id\":217,\"type\":\"httpserver\",\"drawable\":{\"version\":1,\"id\":221,\"X\":177,\"Y\":-39},\"connectable\":{\"version\":1,\"id\":218,\"connectors\":[{\"version\":1,\"id\":220}],\"macaddresses\":[\"2B:30:26:52:A7:2A\"],\"ipinfos\":[{\"IPv4\":1124921348,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":219,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":2,\"id\":\"HTTPServer\",\"ifacepos\":0,\"config\":{\"protocol\":\"http\",\"port\":80,\"httpsEnabled\":false,\"customPort\":null,\"statusCodes\":{},\"serverStatus\":\"running\",\"sslCertificate\":{\"enabled\":false,\"issuer\":\"NetworkSimulator CA\",\"subject\":\"\",\"validFrom\":\"2025-09-10\",\"validTo\":\"2026-09-10\",\"fingerprint\":\"D7:26:38:72:06:B0:D8:42:18:69:B9:4B:B7:71:29:5F:D8:B4:FD:F7\",\"selfSigned\":true,\"algorithm\":\"RSA 2048\"},\"customHeaders\":{},\"corsEnabled\":false,\"securityHeaders\":false,\"virtualHosts\":{\"isp.com\":{\"files\":{\"index.html\":\"<html><body><h1>Welcome to isp.com!!!</h1><p>index.html</p></body></html>\"},\"auth\":{},\"redirects\":{},\"enabled\":true}},\"defaultHost\":\"localhost\",\"authentication\":{}},\"domains\":[]},\"port\":80,\"fixed\":true,\"type\":\"HTTPServer\",\"ifacepos\":0}],\"name\":\"httpserver 217\",\"group\":\"ISP\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\"},{\"version\":1,\"id\":246,\"type\":\"switch\",\"drawable\":{\"version\":1,\"id\":257,\"X\":118,\"Y\":121},\"connectable\":{\"version\":1,\"id\":247,\"connectors\":[{\"version\":1,\"id\":249},{\"version\":1,\"id\":250},{\"version\":1,\"id\":251},{\"version\":1,\"id\":252},{\"version\":1,\"id\":253},{\"version\":1,\"id\":254},{\"version\":1,\"id\":255},{\"version\":1,\"id\":256}],\"macaddresses\":[\"13:86:F9:84:59:5A\"],\"ipinfos\":[],\"macmode\":0,\"ipmode\":2,\"trafficManager\":{\"version\":1,\"id\":248,\"limitbroadcast\":false,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":8,\"apps\":[],\"name\":\"switch 246\",\"group\":\"ISP\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}}}],\"links\":[{\"version\":1,\"id\":151,\"connector1\":136,\"connector2\":96},{\"version\":1,\"id\":155,\"connector1\":113,\"connector2\":97},{\"version\":1,\"id\":159,\"connector1\":13,\"connector2\":98},{\"version\":1,\"id\":267,\"connector1\":135,\"connector2\":166},{\"version\":1,\"id\":271,\"connector1\":183,\"connector2\":167},{\"version\":1,\"id\":275,\"connector1\":184,\"connector2\":249},{\"version\":1,\"id\":279,\"connector1\":202,\"connector2\":250},{\"version\":1,\"id\":283,\"connector1\":220,\"connector2\":251}]}"
+    },
+    "radius_auth": {
+      "name": "\ud83d\udd10 RADIUS Authentication",
+      "description": "802.1X network access control with RADIUS server, demonstrating port-based authentication and network security",
+      "category": "security",
+      "difficulty": "Advanced",
+      "author": "NetworkSimulator Team",
+      "version": "1.0",
+      "networkData": "{\"version\":1,\"lastusedid\":525,\"saveTimestamp\":1760110136498,\"saveDate\":\"2025-10-10T15:28:56.498Z\",\"elements\":[{\"version\":1,\"id\":10,\"type\":\"computer\",\"drawable\":{\"version\":1,\"id\":14,\"X\":858,\"Y\":320},\"connectable\":{\"version\":1,\"id\":11,\"connectors\":[{\"version\":1,\"id\":13}],\"macaddresses\":[\"1C:E2:E7:58:D6:6E\"],\"ipinfos\":[{\"IPv4\":null,\"DNS1\":null,\"DNS2\":null,\"netmask\":null,\"static\":false}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":12,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":\"192.168.1.1\",\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DHCPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"DHCPClient\",\"ifacepos\":0},{\"app\":{\"version\":2,\"id\":\"DNSClient\",\"ifacepos\":0,\"dnsCache\":{\"isp.com\":{\"ip\":\"67.12.240.4\",\"status\":\"resolved\",\"timestamp\":\"2025-09-10T20:00:06.496Z\"}}},\"port\":-1,\"fixed\":false,\"type\":\"DNSClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"id\":\"HTTPClient\",\"ifacepos\":0},\"port\":-1,\"fixed\":false,\"type\":\"HTTPClient\",\"ifacepos\":0},{\"app\":{\"version\":1,\"config\":{\"username\":\"\",\"password\":\"\",\"emailAddress\":\"\",\"smtpServer\":\"\",\"smtpPort\":25,\"pop3Server\":\"\",\"pop3Port\":110,\"configured\":false},\"folders\":{\"inbox\":[],\"sent\":[],\"drafts\":[],\"trash\":[]},\"currentFolder\":\"inbox\"},\"port\":-1,\"fixed\":false,\"type\":\"EmailClient\",\"ifacepos\":0}],\"name\":\"Desktop 10\",\"group\":\"LAN\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"dot1x\":{\"enabled\":false,\"username\":\"alice\",\"password\":\"password123\",\"authState\":\"DISCONNECTED\",\"autoConnect\":true}},{\"version\":1,\"id\":93,\"type\":\"switch\",\"drawable\":{\"version\":1,\"id\":104,\"X\":793,\"Y\":170},\"connectable\":{\"version\":1,\"id\":94,\"connectors\":[{\"version\":1,\"id\":96},{\"version\":1,\"id\":97},{\"version\":1,\"id\":98},{\"version\":1,\"id\":99},{\"version\":1,\"id\":100},{\"version\":1,\"id\":101},{\"version\":1,\"id\":102},{\"version\":1,\"id\":103}],\"macaddresses\":[\"BD:95:82:14:8B:35\"],\"ipinfos\":[],\"macmode\":0,\"ipmode\":2,\"trafficManager\":{\"version\":1,\"id\":95,\"limitbroadcast\":false,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":8,\"apps\":[],\"name\":\"switch 93\",\"group\":\"LAN\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"radiusClient\":{\"config\":{\"serverIP\":\"192.168.1.3\",\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":true},\"portStates\":{\"0\":{\"state\":\"authorized\",\"host\":null,\"enabled\":false},\"1\":{\"state\":\"authorized\",\"host\":null,\"enabled\":false},\"2\":{\"state\":\"unauthorized\",\"host\":null,\"username\":null,\"sessionId\":null,\"startTime\":null,\"enabled\":true},\"3\":{\"state\":\"authorized\",\"host\":null,\"enabled\":false},\"4\":{\"state\":\"authorized\",\"host\":null,\"enabled\":false},\"5\":{\"state\":\"authorized\",\"host\":null,\"enabled\":false},\"6\":{\"state\":\"authorized\",\"host\":null,\"enabled\":false},\"7\":{\"state\":\"authorized\",\"host\":null,\"enabled\":false}}}},{\"version\":1,\"id\":110,\"type\":\"dhcpserver\",\"drawable\":{\"version\":1,\"id\":114,\"X\":890,\"Y\":25},\"connectable\":{\"version\":1,\"id\":111,\"connectors\":[{\"version\":1,\"id\":113}],\"macaddresses\":[\"9B:34:05:F7:BF:25\"],\"ipinfos\":[{\"IPv4\":-1062731518,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":112,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DHCPServer\",\"ifacepos\":0,\"initial\":\"100\",\"end\":\"200\",\"gateway\":\"192.168.1.1\",\"dns1\":\"67.12.240.3\",\"dns2\":\"\",\"isRogueMode\":false},\"port\":67,\"fixed\":true,\"type\":\"DHCPServer\",\"ifacepos\":0}],\"name\":\"dhcpserver 110\",\"group\":\"LAN\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\"},{\"version\":1,\"id\":132,\"type\":\"router\",\"drawable\":{\"version\":1,\"id\":137,\"X\":629,\"Y\":77},\"connectable\":{\"version\":1,\"id\":133,\"connectors\":[{\"version\":1,\"id\":135},{\"version\":1,\"id\":136}],\"macaddresses\":[\"B6:F8:72:8B:1B:2B\",\"E4:81:98:BE:EF:AB\"],\"ipinfos\":[{\"IPv4\":1124921364,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true},{\"IPv4\":-1062731519,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":134,\"limitbroadcast\":true,\"performNAT\":true,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":true},\"ports\":2,\"apps\":[],\"name\":\"router 132\",\"group\":\"LAN\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"isRogueRouter\":false,\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}}},{\"version\":1,\"id\":163,\"type\":\"switch\",\"drawable\":{\"version\":1,\"id\":174,\"X\":447,\"Y\":139},\"connectable\":{\"version\":1,\"id\":164,\"connectors\":[{\"version\":1,\"id\":166},{\"version\":1,\"id\":167},{\"version\":1,\"id\":168},{\"version\":1,\"id\":169},{\"version\":1,\"id\":170},{\"version\":1,\"id\":171},{\"version\":1,\"id\":172},{\"version\":1,\"id\":173}],\"macaddresses\":[\"2C:5A:95:3A:83:D5\"],\"ipinfos\":[],\"macmode\":0,\"ipmode\":2,\"trafficManager\":{\"version\":1,\"id\":165,\"limitbroadcast\":false,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":8,\"apps\":[],\"name\":\"switch 163\",\"group\":null,\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}}},{\"version\":1,\"id\":180,\"type\":\"router\",\"drawable\":{\"version\":1,\"id\":185,\"X\":247,\"Y\":226},\"connectable\":{\"version\":1,\"id\":181,\"connectors\":[{\"version\":1,\"id\":183},{\"version\":1,\"id\":184}],\"macaddresses\":[\"A3:BF:7A:2D:6E:22\",\"1D:C9:96:F7:F8:8F\"],\"ipinfos\":[{\"IPv4\":1124921345,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true},{\"IPv4\":1124921346,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":182,\"limitbroadcast\":true,\"performNAT\":true,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":true},\"ports\":2,\"apps\":[],\"name\":\"router 180\",\"group\":\"ISP\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"isRogueRouter\":false,\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}}},{\"version\":1,\"id\":199,\"type\":\"dnsserver\",\"drawable\":{\"version\":1,\"id\":203,\"X\":-35,\"Y\":141},\"connectable\":{\"version\":1,\"id\":200,\"connectors\":[{\"version\":1,\"id\":202}],\"macaddresses\":[\"22:8F:3F:C2:65:41\"],\"ipinfos\":[{\"IPv4\":1124921347,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":201,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"DNSServer\",\"ifacepos\":0,\"dnstable\":[{\"domain\":\"isp.com\",\"ip\":\"67.12.240.4\"}],\"forwarder\":null},\"port\":53,\"fixed\":true,\"type\":\"DNSServer\",\"ifacepos\":0}],\"name\":\"dnsserver 199\",\"group\":\"ISP\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\"},{\"version\":1,\"id\":217,\"type\":\"httpserver\",\"drawable\":{\"version\":1,\"id\":221,\"X\":177,\"Y\":-39},\"connectable\":{\"version\":1,\"id\":218,\"connectors\":[{\"version\":1,\"id\":220}],\"macaddresses\":[\"2B:30:26:52:A7:2A\"],\"ipinfos\":[{\"IPv4\":1124921348,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":219,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":2,\"id\":\"HTTPServer\",\"ifacepos\":0,\"enabled\":false,\"config\":{\"protocol\":\"http\",\"port\":80,\"httpsEnabled\":false,\"customPort\":null,\"statusCodes\":{},\"serverStatus\":\"running\",\"sslCertificate\":{\"enabled\":false,\"issuer\":\"NetworkSimulator CA\",\"subject\":\"\",\"validFrom\":\"2025-09-10\",\"validTo\":\"2026-09-10\",\"fingerprint\":\"D7:26:38:72:06:B0:D8:42:18:69:B9:4B:B7:71:29:5F:D8:B4:FD:F7\",\"selfSigned\":true,\"algorithm\":\"RSA 2048\"},\"customHeaders\":{},\"corsEnabled\":false,\"securityHeaders\":false,\"virtualHosts\":{\"isp.com\":{\"files\":{\"index.html\":\"<html><body><h1>Welcome to isp.com!!!</h1><p>index.html</p></body></html>\"},\"auth\":{},\"redirects\":{},\"enabled\":true}},\"defaultHost\":\"localhost\",\"authentication\":{}},\"domains\":[],\"domainCertificates\":{}},\"port\":80,\"fixed\":true,\"type\":\"HTTPServer\",\"ifacepos\":0}],\"name\":\"httpserver 217\",\"group\":\"ISP\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\"},{\"version\":1,\"id\":246,\"type\":\"switch\",\"drawable\":{\"version\":1,\"id\":257,\"X\":118,\"Y\":121},\"connectable\":{\"version\":1,\"id\":247,\"connectors\":[{\"version\":1,\"id\":249},{\"version\":1,\"id\":250},{\"version\":1,\"id\":251},{\"version\":1,\"id\":252},{\"version\":1,\"id\":253},{\"version\":1,\"id\":254},{\"version\":1,\"id\":255},{\"version\":1,\"id\":256}],\"macaddresses\":[\"13:86:F9:84:59:5A\"],\"ipinfos\":[],\"macmode\":0,\"ipmode\":2,\"trafficManager\":{\"version\":1,\"id\":248,\"limitbroadcast\":false,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":8,\"apps\":[],\"name\":\"switch 246\",\"group\":\"ISP\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\",\"radiusClient\":{\"config\":{\"serverIP\":null,\"serverPort\":1812,\"sharedSecret\":\"radius123\",\"timeout\":3000,\"retries\":3,\"enabled\":false},\"portStates\":{}}},{\"version\":1,\"id\":352,\"type\":\"radiusserver\",\"drawable\":{\"version\":1,\"id\":356,\"X\":652,\"Y\":272},\"connectable\":{\"version\":1,\"id\":353,\"connectors\":[{\"version\":1,\"id\":355}],\"macaddresses\":[\"95:EB:8D:21:16:ED\"],\"ipinfos\":[{\"IPv4\":-1062731517,\"DNS1\":null,\"DNS2\":null,\"netmask\":-256,\"static\":true}],\"macmode\":1,\"ipmode\":1,\"trafficManager\":{\"version\":1,\"id\":354,\"limitbroadcast\":true,\"performNAT\":false,\"NATtable\":[]},\"gateways\":{\"defaultgw\":null,\"gateways\":[]},\"performNAT\":false},\"ports\":1,\"apps\":[{\"app\":{\"version\":1,\"id\":\"RADIUSServer\",\"ifacepos\":0,\"config\":{\"authPort\":1812,\"acctPort\":1813,\"sessionTimeout\":3600,\"defaultAuth\":\"PAP\",\"serverStatus\":\"running\"},\"users\":[{\"username\":\"alice\",\"password\":\"password123\",\"group\":\"users\",\"attributes\":{},\"enabled\":true}],\"nasClients\":[],\"stats\":{\"totalRequests\":8,\"successfulAuths\":8,\"failedAuths\":0,\"activeSessionCount\":1}},\"port\":1812,\"fixed\":true,\"type\":\"RADIUSServer\",\"ifacepos\":0}],\"name\":\"radiusserver 352\",\"group\":\"LAN\",\"deviceType\":\"desktop\",\"hasWiFi\":false,\"hasEthernet\":true,\"deviceIcon\":\"\ud83d\udda5\ufe0f\",\"connectionType\":\"ethernet\"}],\"links\":[{\"version\":1,\"id\":151,\"connector1\":136,\"connector2\":96},{\"version\":1,\"id\":155,\"connector1\":113,\"connector2\":97},{\"version\":1,\"id\":159,\"connector1\":13,\"connector2\":98},{\"version\":1,\"id\":267,\"connector1\":135,\"connector2\":166},{\"version\":1,\"id\":271,\"connector1\":183,\"connector2\":167},{\"version\":1,\"id\":275,\"connector1\":184,\"connector2\":249},{\"version\":1,\"id\":279,\"connector1\":202,\"connector2\":250},{\"version\":1,\"id\":283,\"connector1\":220,\"connector2\":251},{\"version\":1,\"id\":392,\"connector1\":355,\"connector2\":99}]}"
+    },
+    "dmz_network": {
+      "name": "\ud83d\udee1\ufe0f DMZ Network",
+      "description": "Enterprise DMZ with firewall separating Internet, DMZ (public servers), and Internal LAN (private resources). Demonstrates defense in depth.",
+      "category": "security",
+      "difficulty": "Advanced",
+      "author": "NetworkSimulator Team",
+      "version": "1.0",
+      "networkData": "{\"version\": 1, \"lastusedid\": 100, \"saveTimestamp\": 1730476800000, \"saveDate\": \"2025-11-01T18:00:00.000Z\", \"elements\": [{\"version\": 1, \"id\": 1, \"type\": \"router\", \"drawable\": {\"version\": 1, \"id\": 2, \"X\": 400, \"Y\": 50}, \"connectable\": {\"version\": 1, \"id\": 3, \"connectors\": [{\"version\": 1, \"id\": 4, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}, {\"version\": 1, \"id\": 5, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}], \"macaddresses\": [\"AA:BB:CC:00:00:01\", \"AA:BB:CC:00:00:02\"], \"ipinfos\": [{\"IPv4\": 134744072, \"DNS1\": null, \"DNS2\": null, \"netmask\": -256, \"static\": true}, {\"IPv4\": 167772161, \"DNS1\": null, \"DNS2\": null, \"netmask\": -16777216, \"static\": true}], \"macmode\": 1, \"ipmode\": 1, \"trafficManager\": {\"version\": 1, \"id\": 6, \"limitbroadcast\": true, \"performNAT\": false, \"NATtable\": []}, \"gateways\": {\"defaultgw\": null, \"gateways\": []}, \"performNAT\": false}, \"ports\": 2, \"apps\": [], \"name\": \"Internet (ISP Router)\", \"group\": \"Internet\", \"deviceType\": \"desktop\", \"hasWiFi\": false, \"hasEthernet\": true, \"deviceIcon\": \"\\ud83d\\udda5\\ufe0f\", \"connectionType\": \"ethernet\", \"isRogueRouter\": false, \"radiusClient\": {\"config\": {\"serverIP\": null, \"serverPort\": 1812, \"sharedSecret\": \"radius123\", \"timeout\": 3000, \"retries\": 3, \"enabled\": false}, \"portStates\": {}}}, {\"version\": 1, \"id\": 10, \"type\": \"firewall\", \"drawable\": {\"version\": 1, \"id\": 11, \"X\": 400, \"Y\": 180}, \"connectable\": {\"version\": 1, \"id\": 12, \"connectors\": [{\"version\": 1, \"id\": 13, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}, {\"version\": 1, \"id\": 14, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}, {\"version\": 1, \"id\": 15, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}], \"macaddresses\": [\"AA:BB:CC:01:00:01\", \"AA:BB:CC:01:00:02\", \"AA:BB:CC:01:00:03\"], \"ipinfos\": [{\"IPv4\": 167772162, \"DNS1\": null, \"DNS2\": null, \"netmask\": -16777216, \"static\": true}, {\"IPv4\": -1062731519, \"DNS1\": null, \"DNS2\": null, \"netmask\": -256, \"static\": true}, {\"IPv4\": -1408237567, \"DNS1\": null, \"DNS2\": null, \"netmask\": -256, \"static\": true}], \"macmode\": 1, \"ipmode\": 1, \"trafficManager\": {\"version\": 1, \"id\": 16, \"limitbroadcast\": true, \"performNAT\": true, \"NATtable\": []}, \"gateways\": {\"defaultgw\": \"10.0.0.1\", \"gateways\": []}, \"performNAT\": true}, \"ports\": 3, \"apps\": [], \"name\": \"Corporate Firewall\", \"group\": \"Firewall\", \"deviceType\": \"desktop\", \"hasWiFi\": false, \"hasEthernet\": true, \"deviceIcon\": \"\\ud83d\\udda5\\ufe0f\", \"connectionType\": \"ethernet\"}, {\"version\": 1, \"id\": 20, \"type\": \"switch\", \"drawable\": {\"version\": 1, \"id\": 21, \"X\": 250, \"Y\": 310}, \"connectable\": {\"version\": 1, \"id\": 22, \"connectors\": [{\"version\": 1, \"id\": 23, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}, {\"version\": 1, \"id\": 24, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}, {\"version\": 1, \"id\": 25, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}, {\"version\": 1, \"id\": 26, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}], \"macaddresses\": [\"AA:BB:CC:02:00:01\"], \"ipinfos\": [], \"macmode\": 0, \"ipmode\": 2, \"trafficManager\": {\"version\": 1, \"id\": 27, \"limitbroadcast\": false, \"performNAT\": false, \"NATtable\": []}, \"gateways\": {\"defaultgw\": null, \"gateways\": []}, \"performNAT\": false}, \"ports\": 4, \"apps\": [], \"name\": \"DMZ Switch\", \"group\": \"DMZ\", \"deviceType\": \"desktop\", \"hasWiFi\": false, \"hasEthernet\": true, \"deviceIcon\": \"\\ud83d\\udda5\\ufe0f\", \"connectionType\": \"ethernet\", \"radiusClient\": {\"config\": {\"serverIP\": null, \"serverPort\": 1812, \"sharedSecret\": \"radius123\", \"timeout\": 3000, \"retries\": 3, \"enabled\": false}, \"portStates\": {}}, \"vlanDatabase\": {\"1\": {\"name\": \"default\", \"status\": \"active\"}}}, {\"version\": 1, \"id\": 30, \"type\": \"switch\", \"drawable\": {\"version\": 1, \"id\": 31, \"X\": 550, \"Y\": 310}, \"connectable\": {\"version\": 1, \"id\": 32, \"connectors\": [{\"version\": 1, \"id\": 33, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}, {\"version\": 1, \"id\": 34, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}, {\"version\": 1, \"id\": 35, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}, {\"version\": 1, \"id\": 36, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}, {\"version\": 1, \"id\": 37, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}], \"macaddresses\": [\"AA:BB:CC:03:00:01\"], \"ipinfos\": [], \"macmode\": 0, \"ipmode\": 2, \"trafficManager\": {\"version\": 1, \"id\": 38, \"limitbroadcast\": false, \"performNAT\": false, \"NATtable\": []}, \"gateways\": {\"defaultgw\": null, \"gateways\": []}, \"performNAT\": false}, \"ports\": 5, \"apps\": [], \"name\": \"LAN Switch\", \"group\": \"Internal LAN\", \"deviceType\": \"desktop\", \"hasWiFi\": false, \"hasEthernet\": true, \"deviceIcon\": \"\\ud83d\\udda5\\ufe0f\", \"connectionType\": \"ethernet\", \"radiusClient\": {\"config\": {\"serverIP\": null, \"serverPort\": 1812, \"sharedSecret\": \"radius123\", \"timeout\": 3000, \"retries\": 3, \"enabled\": false}, \"portStates\": {}}, \"vlanDatabase\": {\"1\": {\"name\": \"default\", \"status\": \"active\"}}}, {\"version\": 1, \"id\": 40, \"type\": \"httpserver\", \"drawable\": {\"version\": 1, \"id\": 41, \"X\": 150, \"Y\": 440}, \"connectable\": {\"version\": 1, \"id\": 42, \"connectors\": [{\"version\": 1, \"id\": 43, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}], \"macaddresses\": [\"AA:BB:CC:04:00:01\"], \"ipinfos\": [{\"IPv4\": -1408237566, \"DNS1\": null, \"DNS2\": null, \"netmask\": -256, \"static\": true}], \"macmode\": 1, \"ipmode\": 1, \"trafficManager\": {\"version\": 1, \"id\": 44, \"limitbroadcast\": true, \"performNAT\": false, \"NATtable\": []}, \"gateways\": {\"defaultgw\": \"172.16.0.1\", \"gateways\": []}, \"performNAT\": false}, \"ports\": 1, \"apps\": [{\"app\": {\"version\": 2, \"id\": \"HTTPServer\", \"ifacepos\": 0, \"config\": {\"protocol\": \"http\", \"port\": 80, \"httpsEnabled\": false, \"customPort\": null, \"statusCodes\": {}, \"serverStatus\": \"running\", \"virtualHosts\": {\"www.company.com\": {\"files\": {\"index.html\": \"<html><head><title>Company Website</title></head><body style='font-family:Arial;text-align:center;padding:50px;'><h1>Welcome to Company.com</h1><p>This web server is in the DMZ zone</p><p style='color:#666;'>Public-facing server protected by firewall</p></body></html>\"}, \"auth\": {}, \"redirects\": {}, \"enabled\": true}}, \"defaultHost\": \"localhost\", \"authentication\": {}}, \"domains\": []}, \"port\": 80, \"fixed\": true, \"type\": \"HTTPServer\", \"ifacepos\": 0}], \"name\": \"Public Web Server\", \"group\": \"DMZ\", \"deviceType\": \"desktop\", \"hasWiFi\": false, \"hasEthernet\": true, \"deviceIcon\": \"\\ud83d\\udda5\\ufe0f\", \"connectionType\": \"ethernet\"}, {\"version\": 1, \"id\": 45, \"type\": \"emailserver\", \"drawable\": {\"version\": 1, \"id\": 46, \"X\": 350, \"Y\": 440}, \"connectable\": {\"version\": 1, \"id\": 47, \"connectors\": [{\"version\": 1, \"id\": 48, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}], \"macaddresses\": [\"AA:BB:CC:04:00:02\"], \"ipinfos\": [{\"IPv4\": -1408237565, \"DNS1\": null, \"DNS2\": null, \"netmask\": -256, \"static\": true}], \"macmode\": 1, \"ipmode\": 1, \"trafficManager\": {\"version\": 1, \"id\": 49, \"limitbroadcast\": true, \"performNAT\": false, \"NATtable\": []}, \"gateways\": {\"defaultgw\": \"172.16.0.1\", \"gateways\": []}, \"performNAT\": false}, \"ports\": 1, \"apps\": [], \"name\": \"Public Mail Server\", \"group\": \"DMZ\", \"deviceType\": \"desktop\", \"hasWiFi\": false, \"hasEthernet\": true, \"deviceIcon\": \"\\ud83d\\udda5\\ufe0f\", \"connectionType\": \"ethernet\"}, {\"version\": 1, \"id\": 50, \"type\": \"computer\", \"drawable\": {\"version\": 1, \"id\": 51, \"X\": 450, \"Y\": 440}, \"connectable\": {\"version\": 1, \"id\": 52, \"connectors\": [{\"version\": 1, \"id\": 53, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}], \"macaddresses\": [\"AA:BB:CC:05:00:01\"], \"ipinfos\": [{\"IPv4\": -1062731518, \"DNS1\": null, \"DNS2\": null, \"netmask\": -256, \"static\": true}], \"macmode\": 1, \"ipmode\": 1, \"trafficManager\": {\"version\": 1, \"id\": 54, \"limitbroadcast\": true, \"performNAT\": false, \"NATtable\": []}, \"gateways\": {\"defaultgw\": \"192.168.1.1\", \"gateways\": []}, \"performNAT\": false}, \"ports\": 1, \"apps\": [{\"app\": {\"version\": 1, \"id\": \"DHCPClient\", \"ifacepos\": 0}, \"port\": -1, \"fixed\": false, \"type\": \"DHCPClient\", \"ifacepos\": 0}, {\"app\": {\"version\": 2, \"id\": \"DNSClient\", \"ifacepos\": 0, \"dnsCache\": {}}, \"port\": -1, \"fixed\": false, \"type\": \"DNSClient\", \"ifacepos\": 0}, {\"app\": {\"version\": 1, \"id\": \"HTTPClient\", \"ifacepos\": 0}, \"port\": -1, \"fixed\": false, \"type\": \"HTTPClient\", \"ifacepos\": 0}], \"name\": \"Workstation 1\", \"group\": \"Internal LAN\", \"deviceType\": \"desktop\", \"hasWiFi\": false, \"hasEthernet\": true, \"deviceIcon\": \"\\ud83d\\udda5\\ufe0f\", \"connectionType\": \"ethernet\", \"dot1x\": {\"enabled\": false, \"username\": \"\", \"password\": \"\", \"authState\": \"DISCONNECTED\", \"autoConnect\": true}}, {\"version\": 1, \"id\": 55, \"type\": \"computer\", \"drawable\": {\"version\": 1, \"id\": 56, \"X\": 550, \"Y\": 440}, \"connectable\": {\"version\": 1, \"id\": 57, \"connectors\": [{\"version\": 1, \"id\": 58, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}], \"macaddresses\": [\"AA:BB:CC:05:00:02\"], \"ipinfos\": [{\"IPv4\": -1062731517, \"DNS1\": null, \"DNS2\": null, \"netmask\": -256, \"static\": true}], \"macmode\": 1, \"ipmode\": 1, \"trafficManager\": {\"version\": 1, \"id\": 59, \"limitbroadcast\": true, \"performNAT\": false, \"NATtable\": []}, \"gateways\": {\"defaultgw\": \"192.168.1.1\", \"gateways\": []}, \"performNAT\": false}, \"ports\": 1, \"apps\": [{\"app\": {\"version\": 1, \"id\": \"DHCPClient\", \"ifacepos\": 0}, \"port\": -1, \"fixed\": false, \"type\": \"DHCPClient\", \"ifacepos\": 0}, {\"app\": {\"version\": 2, \"id\": \"DNSClient\", \"ifacepos\": 0, \"dnsCache\": {}}, \"port\": -1, \"fixed\": false, \"type\": \"DNSClient\", \"ifacepos\": 0}, {\"app\": {\"version\": 1, \"id\": \"HTTPClient\", \"ifacepos\": 0}, \"port\": -1, \"fixed\": false, \"type\": \"HTTPClient\", \"ifacepos\": 0}], \"name\": \"Workstation 2\", \"group\": \"Internal LAN\", \"deviceType\": \"desktop\", \"hasWiFi\": false, \"hasEthernet\": true, \"deviceIcon\": \"\\ud83d\\udda5\\ufe0f\", \"connectionType\": \"ethernet\", \"dot1x\": {\"enabled\": false, \"username\": \"\", \"password\": \"\", \"authState\": \"DISCONNECTED\", \"autoConnect\": true}}, {\"version\": 1, \"id\": 60, \"type\": \"computer\", \"drawable\": {\"version\": 1, \"id\": 61, \"X\": 650, \"Y\": 440}, \"connectable\": {\"version\": 1, \"id\": 62, \"connectors\": [{\"version\": 1, \"id\": 63, \"vlanId\": 1, \"portMode\": \"access\", \"nativeVlan\": 1, \"allowedVlans\": [1]}], \"macaddresses\": [\"AA:BB:CC:05:00:03\"], \"ipinfos\": [{\"IPv4\": -1062731516, \"DNS1\": null, \"DNS2\": null, \"netmask\": -256, \"static\": true}], \"macmode\": 1, \"ipmode\": 1, \"trafficManager\": {\"version\": 1, \"id\": 64, \"limitbroadcast\": true, \"performNAT\": false, \"NATtable\": []}, \"gateways\": {\"defaultgw\": \"192.168.1.1\", \"gateways\": []}, \"performNAT\": false}, \"ports\": 1, \"apps\": [], \"name\": \"File Server (Private)\", \"group\": \"Internal LAN\", \"deviceType\": \"desktop\", \"hasWiFi\": false, \"hasEthernet\": true, \"deviceIcon\": \"\\ud83d\\udda5\\ufe0f\", \"connectionType\": \"ethernet\", \"dot1x\": {\"enabled\": false, \"username\": \"\", \"password\": \"\", \"authState\": \"DISCONNECTED\", \"autoConnect\": true}}], \"links\": [{\"version\": 1, \"id\": 70, \"connector1\": 5, \"connector2\": 13}, {\"version\": 1, \"id\": 71, \"connector1\": 15, \"connector2\": 23}, {\"version\": 1, \"id\": 72, \"connector1\": 14, \"connector2\": 33}, {\"version\": 1, \"id\": 73, \"connector1\": 24, \"connector2\": 43}, {\"version\": 1, \"id\": 74, \"connector1\": 25, \"connector2\": 48}, {\"version\": 1, \"id\": 75, \"connector1\": 34, \"connector2\": 53}, {\"version\": 1, \"id\": 76, \"connector1\": 35, \"connector2\": 58}, {\"version\": 1, \"id\": 77, \"connector1\": 36, \"connector2\": 63}], \"lastuseddinamycport\": 60000, \"lastMessageId\": 0}"
+    }
+  }
+}
