@@ -2855,7 +2855,7 @@ window.serializeProjectData = function () {
             var parsed = JSON.parse(data);
             parsed.saveTimestamp = Date.now();
             parsed.saveDate = new Date().toISOString();
-            return JSON.stringify(parsed);
+            return parsed;
         } catch (e) {
             return data;
         }
@@ -2875,7 +2875,7 @@ window.loadProjectData = function (data) {
     
     NetworkSimulator.initialdata = parsed;
     if (typeof network !== 'undefined' && network && network.load) {
-        network.load(JSON.stringify(parsed));
+        network.load(parsed);
     }
 };
 
