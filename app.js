@@ -514,7 +514,6 @@ var lastSaveTime = 0;
         updateZoomIndicator();
         network.render();
     }
-    </script>
 
     // Firewall-specific functions
     // Firewall functions are now properly implemented in Firewall.js
@@ -641,7 +640,6 @@ var lastSaveTime = 0;
             document.getElementById('deviceMenu').style.display = 'none';
         }
     });
-    </script>
 
     // Track changes to the network
     function markAsChanged() {
@@ -2847,7 +2845,6 @@ var lastSaveTime = 0;
             }
         });
     }
-    </script>
 
 
 // ── Platform Integration Exports ──────────────────────────────
