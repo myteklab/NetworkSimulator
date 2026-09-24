@@ -160,16 +160,18 @@ var lastSaveTime = 0;
 	loader.load();
     }
     
-    // Canvas viewport management
+    // Canvas viewport management. The canvas backing store is devicePixelRatio times
+    // its CSS size, so "100%" is a zoom of dpr, or a Retina screen draws everything half size.
+    var dpr = window.devicePixelRatio || 1;
     var canvasViewport = {
-        zoom: 1,
+        zoom: dpr,
         offsetX: 0,
         offsetY: 0,
         isDragging: false,
         lastX: 0,
         lastY: 0,
-        minZoom: 0.25,
-        maxZoom: 4
+        minZoom: 0.25 * dpr,
+        maxZoom: 4 * dpr
     };
     
     function setupResponsiveCanvas() {
@@ -275,8 +277,8 @@ var lastSaveTime = 0;
                 var deltaX = e.clientX - canvasViewport.lastX;
                 var deltaY = e.clientY - canvasViewport.lastY;
                 
-                canvasViewport.offsetX += deltaX;
-                canvasViewport.offsetY += deltaY;
+                canvasViewport.offsetX += deltaX * dpr;
+                canvasViewport.offsetY += deltaY * dpr;
                 
                 canvasViewport.lastX = e.clientX;
                 canvasViewport.lastY = e.clientY;
@@ -390,7 +392,7 @@ var lastSaveTime = 0;
     function updateZoomIndicator() {
         var indicator = document.getElementById('zoomLevel');
         if (indicator) {
-            indicator.textContent = Math.round(canvasViewport.zoom * 100) + '%';
+            indicator.textContent = Math.round(canvasViewport.zoom / dpr * 100) + '%';
         }
     }
     
@@ -484,7 +486,7 @@ var lastSaveTime = 0;
     }
     
     function resetView() {
-        canvasViewport.zoom = 1;
+        canvasViewport.zoom = dpr;
         canvasViewport.offsetX = 0;
         canvasViewport.offsetY = 0;
         updateZoomIndicator();
@@ -506,7 +508,7 @@ var lastSaveTime = 0;
         
         var scaleX = (canvas.width - padding * 2) / bounds.width;
         var scaleY = (canvas.height - padding * 2) / bounds.height;
-        canvasViewport.zoom = Math.min(scaleX, scaleY, 1);
+        canvasViewport.zoom = Math.min(scaleX, scaleY, dpr);
         
         canvasViewport.offsetX = (canvas.width - bounds.width * canvasViewport.zoom) / 2 - bounds.minX * canvasViewport.zoom;
         canvasViewport.offsetY = (canvas.height - bounds.height * canvasViewport.zoom) / 2 - bounds.minY * canvasViewport.zoom;
