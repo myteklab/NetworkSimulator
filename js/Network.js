@@ -101,6 +101,7 @@ var Network = function(imgs, context, w, h)
     var images = imgs;
     var ctx = context;
     var _self = this;
+    var lastUpdateAt = 0;   // performance.now() of the previous frame, for time-based packet movement
     var W = w;
     var H = h;
     var selected = null;
@@ -731,10 +732,17 @@ var Network = function(imgs, context, w, h)
         // Draw grid background (optional, for better visual reference)
         drawGrid(ctx);
         
+        // Packets advanced a fixed step per frame, so a slow machine ran the
+        // whole network in slow motion. Scale the step by real elapsed time
+        // (1 at 60 fps), capped so a stalled or hidden tab does not jump.
+        var now = (typeof performance !== 'undefined') ? performance.now() : Date.now();
+        var frameScale = lastUpdateAt ? Math.min(6, Math.max(0, (now - lastUpdateAt) / (1000 / 60))) : 1;
+        lastUpdateAt = now;
+
         // Draw links
         for (var i = 0; i < links.length; i++) 
         {
-            links[i].update();
+            links[i].update(frameScale);
             links[i].draw(ctx, selected === links[i]);
         }
         

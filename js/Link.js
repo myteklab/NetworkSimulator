@@ -651,12 +651,13 @@ var Link = function(c1, c2)
         drawMessages(ctx);
     };
     
-    this.update = function() 
+    this.update = function(frameScale) 
     {
         var newmessages = [];
+        var step = AnimationControls.MSG_ADVANCE * (frameScale === undefined ? 1 : frameScale);
         for (var i = 0; i < messages.length; i++) 
         {
-            messages[i].pos += AnimationControls.MSG_ADVANCE;
+            messages[i].pos += step;
             if (messages[i].pos < 100) 
             {
                 newmessages.push(messages[i]);
