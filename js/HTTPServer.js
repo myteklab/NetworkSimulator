@@ -1705,9 +1705,13 @@ var HTTPServer = function(ifacepos)
     
     this.load = function(data)
     {
-        // Load enabled state
+        // Load enabled state. Saves from before the start/stop switch have no
+        // enabled field, and those servers always served; leaving them at the
+        // constructor's false made every request vanish with no reply.
         if (data.enabled !== undefined) {
             this.enabled = data.enabled;
+        } else {
+            this.enabled = true;
         }
 
         // Load configuration if available (backward compatible)
@@ -2824,8 +2828,17 @@ var HTTPServer = function(ifacepos)
         var hostHeader = data.headers && data.headers['Host'] ? data.headers['Host'].split(':')[0] : domain;
         var authHeader = data.headers && data.headers['Authorization'] ? data.headers['Authorization'] : null;
         
-        // Use virtual host if available
-        var vhost = config.virtualHosts[hostHeader] || config.virtualHosts[domain];
+        // Use virtual host if available. A request by IP address carries the IP
+        // as its Host, so without the defaultHost fallback it matched nothing.
+        var vhost = config.virtualHosts[hostHeader] || config.virtualHosts[domain] ||
+                    (config.defaultHost ? config.virtualHosts[config.defaultHost] : undefined);
+        // The browser asks for "/index.html", or "" for a bare domain, while
+        // files made in the app are stored as "index.html".
+        var vfile = filename;
+        if (vhost && vhost.files && !(vfile in vhost.files)) {
+            var bare = String(filename || '').replace(/^\/+/, '') || 'index.html';
+            if (bare in vhost.files) vfile = bare;
+        }
         
         // Check for authentication first
         if (!this.checkAuthentication(hostHeader, filename, authHeader)) {
@@ -2932,9 +2945,9 @@ var HTTPServer = function(ifacepos)
             contents = "<html><body><h1>503 Service Unavailable</h1><p>Server is under maintenance</p></body></html>";
         }
         // Phase 3: Check virtual host files first
-        else if (vhost && vhost.files && filename in vhost.files) {
-            code = this.getStatusCode(hostHeader || domain, filename) || 200;
-            contents = vhost.files[filename];
+        else if (vhost && vhost.files && vfile in vhost.files) {
+            code = this.getStatusCode(hostHeader || domain, vfile) || 200;
+            contents = vhost.files[vfile];
         }
         // Check for custom status code configuration
         else if (this.getStatusCode(domain, filename)) {

@@ -1336,11 +1336,17 @@ var HTTPClient = function(ifacepos)
             _self.responseTimeout = null;
         }
 
-        // Use longer timeout to allow for multi-hop network routing
-        // HTTPS needs more time for SSL handshake, HTTP also needs time for complex routing
-        var timeoutDuration = (protocol === 'https') ? 15000 : 10000;
+        // Packets move a few pixels per animation frame, so a request across a
+        // few routers takes 10 s or more even at 60 fps, and longer on a slow
+        // machine. The old 10 s wall-clock limit failed networks that worked.
+        // Wait longer, and never give up while the animation is paused.
+        var timeoutDuration = (protocol === 'https') ? 60000 : 45000;
 
-        _self.responseTimeout = setTimeout(function() {
+        var onTimeout = function() {
+            if (typeof AnimationControls !== 'undefined' && AnimationControls.MSG_ADVANCE === 0 && lastCode === 0) {
+                _self.responseTimeout = setTimeout(onTimeout, 1000);
+                return;
+            }
             // Only show error if we still have this timeout active and no response
             if (lastCode === 0 && _self.responseTimeout) { // Still no response
                 // Check if server was disabled
@@ -1372,7 +1378,8 @@ var HTTPClient = function(ifacepos)
                 // Clear the timeout reference so we don't check it again
                 _self.responseTimeout = null;
             }
-        }, timeoutDuration); // 5 second for HTTP, 10 seconds for HTTPS
+        };
+        _self.responseTimeout = setTimeout(onTimeout, timeoutDuration);
 
         var MAC = owner.getConnectable().getDstMAC(ip);
         if (MAC !== null)
