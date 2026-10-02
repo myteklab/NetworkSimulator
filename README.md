@@ -2,6 +2,8 @@
 
 An interactive network simulation tool for learning how computer networks work. Design networks with routers, switches, firewalls, and servers, then watch packets flow in real time.
 
+**Try it in your browser, no account needed:** [mytekdev.com/tools/network-simulator](https://mytekdev.com/tools/network-simulator). The page has a live demo and explains what students learn from it.
+
 Originally adapted from [NetworkSimulator](https://github.com/malkiah/NetworkSimulator) by Jorge Garcia Ochoa de Aspuru, this version has been significantly expanded with new device types, protocol simulations, security attack demonstrations, and a modern dark-themed UI.
 
 ## Features
