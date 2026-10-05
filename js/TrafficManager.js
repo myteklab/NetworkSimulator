@@ -984,7 +984,7 @@ var TrafficManager = function(connectable, limitbroadcast, performNAT)
                 // Si es para mí, y es mi IP, y no es una respuesta a un id en la tabla, hago log
                 else if (forme && myip && !(message.getData().originMessageId in icmpResponses))
                 {
-                    addDiagnosticInfo(_("Ping response recieved from ") + message.getOriginIP());
+                    addDiagnosticInfo(_("Ping response received from ") + message.getOriginIP());
                 }
                 // Si es para mí, y no es mi IP, y no es una respuesta a un id en la tabla, busco MAC y envio
                 // BUT only if we're a router - regular hosts shouldn't forward packets

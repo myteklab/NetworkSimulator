@@ -80,7 +80,7 @@ var es_ES ={
     "Add":"Añadir",
     "Sending traceroute to: ":"Enviando traceroute a: ",
     "Sending ping to: ":"Enviando ping a: ",
-    "Ping response recieved from ":"Respuesta a ping recibida de ",
+    "Ping response received from ":"Respuesta a ping recibida de ",
     " - Traceroute to ":" - Traceroute a ",
     "Network unreachable: ":"Red inaccesible: ",
     "Network not configured for interface: ":"Red no configurada para la interfaz: ",

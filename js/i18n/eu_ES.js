@@ -80,7 +80,7 @@ var eu_ES = {
     "Add":"Gehitu",
     "Sending traceroute to: ":"Traceroute bidaltzen honako helbide honetara: ",
     "Sending ping to: ":"Ping bidaltzen honako helbide honetara: ",
-    "Ping response recieved from ":"Ping erantzuna honako helbide honetatik: ",
+    "Ping response received from ":"Ping erantzuna honako helbide honetatik: ",
     " - Traceroute to ":" - Traceroute honako helbide honetara: ",
     "Network unreachable: ":"Sarea eskuraezina: ",
     "Network not configured for interface: ":"Sarea ez dago konfiguratuta interfaze honetan: ",
