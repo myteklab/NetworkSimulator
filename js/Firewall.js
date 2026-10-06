@@ -1108,9 +1108,9 @@ var Firewall = function()
         html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:25px;">#</th>';
         html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:55px;">Action</th>';
         html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:45px;">Dir</th>';
-        html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:65px;">Protocol</th>';
-        html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:65px;">Source</th>';
-        html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:65px;">Dest</th>';
+        html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:72px;">Protocol</th>';
+        html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:100px;">Source</th>';
+        html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:100px;">Dest</th>';
         html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:60px;">Port</th>';
         html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;">Desc</th>';
         html += '<th style="padding:6px 6px; text-align:center;color:#9ca3af !important;background:#2a2d3e !important;width:35px;">Del</th>';
