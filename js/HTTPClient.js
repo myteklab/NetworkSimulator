@@ -747,7 +747,7 @@ function showAuthenticationDialog(hostId)
     var controls = '<button onclick="submitAuthentication(\'' + hostId + '\')">Login</button> ';
     controls += '<button onclick="cancelAuthentication()">Cancel</button>';
     
-    var w = new UIWindow('divauthentication', 'Authentication Required', 350, 250, false, 1.0);
+    var w = new UIWindow('divauthentication', 'Authentication Required', 350, 340, false, 1.0);
     w.setContent(content);
     w.setControls(controls);
     w.render();
