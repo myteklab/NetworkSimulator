@@ -2453,7 +2453,13 @@ var lastSaveTime = 0;
             var allowedVlans = connector.getAllowedVlans ? connector.getAllowedVlans() : [1];
             var nativeVlan = connector.getNativeVlan ? connector.getNativeVlan() : 1;
             var isConnected = connector.isConnected();
-            var statusText = isConnected ? 'Connected' : 'Not Connected';
+            // name the device on the other end, or a student cannot tell which port is whose
+            var statusText = 'Not Connected';
+            if (isConnected) {
+                var far = connector.getConnectedConnector();
+                var farOwner = far && far.getConnectable && far.getConnectable().getOwner();
+                statusText = (farOwner && farOwner.getName) ? 'To ' + farOwner.getName() : 'Connected';
+            }
             var statusColor = isConnected ? '#10b981' : '#6b7280';
 
             innerHTML += '<tr style="border-bottom:1px solid #2a2d3a;">';
