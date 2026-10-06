@@ -1111,7 +1111,7 @@ var Firewall = function()
         html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:65px;">Protocol</th>';
         html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:65px;">Source</th>';
         html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:65px;">Dest</th>';
-        html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:40px;">Port</th>';
+        html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;width:60px;">Port</th>';
         html += '<th style="padding:6px 6px; text-align:left;color:#9ca3af !important;background:#2a2d3e !important;">Desc</th>';
         html += '<th style="padding:6px 6px; text-align:center;color:#9ca3af !important;background:#2a2d3e !important;width:35px;">Del</th>';
         html += '</tr></thead>';
@@ -1140,7 +1140,9 @@ var Firewall = function()
             html += '<td style="padding:6px 6px;color:#e4e4e7 !important;background:' + bgColor + ' !important;font-size:10px;">' + rule.protocol + '</td>';
             html += '<td style="padding:6px 6px; font-family:monospace; font-size:10px;color:#e4e4e7 !important;background:' + bgColor + ' !important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + rule.sourceIP + '</td>';
             html += '<td style="padding:6px 6px; font-family:monospace; font-size:10px;color:#e4e4e7 !important;background:' + bgColor + ' !important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + rule.destIP + '</td>';
-            html += '<td style="padding:6px 6px;color:#e4e4e7 !important;background:' + bgColor + ' !important;font-size:10px;">' + rule.destPort + '</td>';
+            // a rule for a server's answers names the port they come from, so show it as from -> to
+            var portText = (rule.sourcePort && rule.sourcePort !== 'ANY') ? rule.sourcePort + ' → ' + rule.destPort : rule.destPort;
+            html += '<td style="padding:6px 6px;color:#e4e4e7 !important;background:' + bgColor + ' !important;font-size:10px;" title="Source port ' + rule.sourcePort + ', destination port ' + rule.destPort + '">' + portText + '</td>';
             html += '<td style="padding:6px 6px; font-size:10px;color:#e4e4e7 !important;background:' + bgColor + ' !important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="' + (rule.description || '') + '">' + desc + '</td>';
             html += '<td style="padding:6px 6px; text-align:center;background:' + bgColor + ' !important;">';
             html += '<button onclick="deleteFirewallRule(' + this.id + ', ' + i + ')" style="background:#ef4444; color:white; padding:2px 6px; border:none; border-radius:3px; cursor:pointer; font-size:10px;">×</button>';
