@@ -710,7 +710,8 @@ var Network = function(imgs, context, w, h)
             ctx.strokeRect(data.minx - 10, data.miny - 10, data.maxx - data.minx + 20, data.maxy - data.miny + 20);
             ctx.font = '16pt';
             ctx.fillStyle = "rgba(255,255,255,1.0)";
-            ctx.fillText(keys[i], data.minx, data.maxy + 20);
+            // above the box: under it, the name sat on top of the lowest device's own label
+            ctx.fillText(keys[i], data.minx - 8, data.miny - 16);
         }
     }
     
