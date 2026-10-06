@@ -1311,7 +1311,13 @@ var Firewall = function()
         // Detect protocol based on message data and ports
         var data = message.getData();
         var destPort = message.getDstPort();
-        
+
+        // a ping and its reply are built as "icmp" messages and name themselves in data.command,
+        // so the data.type test below never saw them and an ICMP rule matched nothing
+        if (message.getType() === "icmp") {
+            return "ICMP";
+        }
+
         if (data && data.type) {
             if (data.type === "ping" || data.type === "pong") {
                 return "ICMP";
