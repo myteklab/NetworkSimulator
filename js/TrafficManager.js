@@ -1343,6 +1343,11 @@ var TrafficManager = function(connectable, limitbroadcast, performNAT)
                   addDiagnosticInfo(_("Sending ping to: ") + message.getDestinationIP());
                   connectable.getConnector(ifacepos).send(message);
               }
+              // on its own subnet nothing needs a route: no MAC means nobody answered the ARP
+              // request (the host is off, or a VLAN keeps it apart), which ping calls host unreachable
+              else if (connectable.isInMyNetworks(dstip)) {
+                addDiagnosticInfo(_("Destination host unreachable (no answer to ARP): ") + dstip);
+              }
               else {
                 addDiagnosticInfo(_("Network unreachable: ") + dstip);
               }
@@ -1397,6 +1402,9 @@ var TrafficManager = function(connectable, limitbroadcast, performNAT)
                 data.originalMessageId = message.getId();
                 addDiagnosticInfo(_("Sending traceroute to: ") + message.getDestinationIP());
                 connectable.getConnector(ifacepos).send(message);
+            }
+            else if (connectable.isInMyNetworks(dstip)) {
+              addDiagnosticInfo(_("Destination host unreachable (no answer to ARP): ") + dstip);
             }
             else {
               addDiagnosticInfo(_("Network unreachable: ") + dstip);

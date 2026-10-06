@@ -83,6 +83,7 @@ var es_ES ={
     "Ping response received from ":"Respuesta a ping recibida de ",
     " - Traceroute to ":" - Traceroute a ",
     "Network unreachable: ":"Red inaccesible: ",
+    "Destination host unreachable (no answer to ARP): ":"Host de destino inaccesible (sin respuesta ARP): ",
     "Network not configured for interface: ":"Red no configurada para la interfaz: ",
     "File name:":"Nombre del fichero:",
     "Download":"Descargar",
