@@ -147,7 +147,7 @@ var Connectable = function(c_owner, macmode, ipmode, limitbroadcast, performNAT)
         return result;
     };
 
-    this.findMACforIP = function(ip, exclude)
+    this.findMACforIP = function(ip, exclude, vlan)
     {
         var result = null;
         if (ip !== null)
@@ -171,7 +171,9 @@ var Connectable = function(c_owner, macmode, ipmode, limitbroadcast, performNAT)
           var i = 0;
           while ((result === null) && (i < connectors.length))
           {
-              if (connectors[i] !== exclude)
+              // a switch floods the request only out of ports in its VLAN
+              var outOfVlan = (vlan != null) && connectors[i].isVlanAllowed && !connectors[i].isVlanAllowed(vlan);
+              if (connectors[i] !== exclude && !outOfVlan)
               {
                   // If we found a direct interface, ONLY check that one
                   if (directInterface !== -1 && i !== directInterface)
@@ -200,7 +202,7 @@ var Connectable = function(c_owner, macmode, ipmode, limitbroadcast, performNAT)
                       // we should forward the ARP request - they act as pass-through
                       if ((nextip === null) || (nextip.getIPv4() === null) || nextip.sameNetwork(ip))
                       {
-                          result = c.whoHas(ip);
+                          result = c.whoHas(ip, vlan);
                           if (result !== null)
                           {
                               ARPtable[ip] = result;

@@ -212,7 +212,8 @@ var Connector = function(connectable)
         return result;
     };
     
-    this.whoHas = function(ip) 
+    // vlan is the VLAN the request travels in, once a switch has put it in one
+    this.whoHas = function(ip, vlan) 
     {
         var result = null;
         var pos = connectable.getConnectorPos(this);
@@ -226,8 +227,16 @@ var Connector = function(connectable)
         else 
         {
             // Forward the ARP request through this device
-            // For switches (no IP), this will broadcast to all other ports
-            result = connectable.findMACforIP(ip, this);
+            // For switches (no IP), this will broadcast to all other ports, but only those in the
+            // VLAN it arrived on, as sendMessage does for every other broadcast: an access port puts
+            // it in the port's VLAN, a trunk keeps the VLAN it was tagged with
+            var inVlan = null;
+            var owner = connectable.getOwner();
+            if (owner && owner.getType && owner.getType() === "switch") {
+                inVlan = (portMode === "trunk") ? (vlan == null ? nativeVlan : vlan) : vlanId;
+                if (!this.isVlanAllowed(inVlan)) return null;
+            }
+            result = connectable.findMACforIP(ip, this, inVlan);
         }
         
         return result;
