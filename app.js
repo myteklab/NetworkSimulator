@@ -2476,32 +2476,7 @@ var lastSaveTime = 0;
             // VLAN Config (different for access vs trunk)
             innerHTML += '<td style="padding:10px;"><div id="port_config_' + i + '">';
 
-            if (portMode === 'access') {
-                // Access port: single VLAN dropdown
-                innerHTML += '<select id="port_vlan_' + i + '" style="background:#1a1d2e; color:#e4e4e7; border:1px solid #4a5568; padding:5px; border-radius:4px; width:150px;">';
-                for (var vId in vlanDb) {
-                    var selected = (parseInt(vId) === currentVlan) ? ' selected' : '';
-                    innerHTML += '<option value="' + vId + '"' + selected + '>VLAN ' + vId + ' (' + vlanDb[vId].name + ')</option>';
-                }
-                innerHTML += '</select>';
-            } else {
-                // Trunk port: allowed VLANs checkboxes + native VLAN
-                innerHTML += '<div style="font-size:11px;">';
-                innerHTML += '<div style="margin-bottom:5px;"><strong>Allowed:</strong> ';
-                for (var vId in vlanDb) {
-                    var checked = allowedVlans.indexOf(parseInt(vId)) >= 0 ? ' checked' : '';
-                    innerHTML += '<label style="margin-right:8px;"><input type="checkbox" id="port_allowed_' + i + '_' + vId + '" value="' + vId + '"' + checked + '> ' + vId + '</label>';
-                }
-                innerHTML += '</div>';
-                innerHTML += '<div><strong>Native:</strong> ';
-                innerHTML += '<select id="port_native_' + i + '" style="background:#1a1d2e; color:#e4e4e7; border:1px solid #4a5568; padding:3px; border-radius:4px; font-size:11px;">';
-                for (var vId in vlanDb) {
-                    var selected = (parseInt(vId) === nativeVlan) ? ' selected' : '';
-                    innerHTML += '<option value="' + vId + '"' + selected + '>' + vId + '</option>';
-                }
-                innerHTML += '</select></div>';
-                innerHTML += '</div>';
-            }
+            innerHTML += vlanPortConfigHTML(i, portMode, currentVlan, allowedVlans, nativeVlan, vlanDb);
 
             innerHTML += '</div></td>';
             innerHTML += '<td style="padding:10px; color:' + statusColor + '; font-weight:500;">' + statusText + '</td>';
@@ -2522,10 +2497,49 @@ var lastSaveTime = 0;
         w.render();
     }
 
+    // one port's VLAN cell: a VLAN list for an access port, allowed VLANs and the native VLAN for a trunk
+    function vlanPortConfigHTML(i, portMode, currentVlan, allowedVlans, nativeVlan, vlanDb) {
+        var innerHTML = '';
+        if (portMode === 'access') {
+            // Access port: single VLAN dropdown
+            innerHTML += '<select id="port_vlan_' + i + '" style="background:#1a1d2e; color:#e4e4e7; border:1px solid #4a5568; padding:5px; border-radius:4px; width:150px;">';
+            for (var vId in vlanDb) {
+                var selected = (parseInt(vId) === currentVlan) ? ' selected' : '';
+                innerHTML += '<option value="' + vId + '"' + selected + '>VLAN ' + vId + ' (' + vlanDb[vId].name + ')</option>';
+            }
+            innerHTML += '</select>';
+        } else {
+            // Trunk port: allowed VLANs checkboxes + native VLAN
+            innerHTML += '<div style="font-size:11px;">';
+            innerHTML += '<div style="margin-bottom:5px;"><strong>Allowed:</strong> ';
+            for (var vId in vlanDb) {
+                var checked = allowedVlans.indexOf(parseInt(vId)) >= 0 ? ' checked' : '';
+                innerHTML += '<label style="margin-right:8px;"><input type="checkbox" id="port_allowed_' + i + '_' + vId + '" value="' + vId + '"' + checked + '> ' + vId + '</label>';
+            }
+            innerHTML += '</div>';
+            innerHTML += '<div><strong>Native:</strong> ';
+            innerHTML += '<select id="port_native_' + i + '" style="background:#1a1d2e; color:#e4e4e7; border:1px solid #4a5568; padding:3px; border-radius:4px; font-size:11px;">';
+            for (var vId in vlanDb) {
+                var selected = (parseInt(vId) === nativeVlan) ? ' selected' : '';
+                innerHTML += '<option value="' + vId + '"' + selected + '>' + vId + '</option>';
+            }
+            innerHTML += '</select></div>';
+            innerHTML += '</div>';
+        }
+
+        return innerHTML;
+    }
+
+    // redraws only this port's cell for the mode just chosen. Reopening the window, as before, rebuilt
+    // it from the saved settings, so the dropdown snapped back to Access and no port could become a trunk
     function togglePortMode(switchId, portIndex) {
-        // Refresh the modal to show appropriate UI
-        cancelVlanConfig();
-        setTimeout(function() { openVlanConfig(switchId); }, 100);
+        var sw = network.getElement(switchId);
+        var connector = sw.getConnectable().getConnector(portIndex);
+        var mode = document.getElementById('port_mode_' + portIndex).value;
+        var allowed = connector.getAllowedVlans ? connector.getAllowedVlans() : [1];
+        var nativeVlan = connector.getNativeVlan ? connector.getNativeVlan() : 1;
+        document.getElementById('port_config_' + portIndex).innerHTML =
+            vlanPortConfigHTML(portIndex, mode, connector.getVlanId(), allowed, nativeVlan, sw.getVlanDatabase());
     }
 
     function saveVlanConfig(switchId) {
