@@ -1702,7 +1702,7 @@ const helpContent = {
             </div>
 
             <div class="help-tip">
-                <strong>In the Simulator:</strong> Configure a DNS server by adding domain→IP mappings! Set "www.school.com" to point to "192.168.1.10", and computers can browse using the domain name instead of typing the IP address. Try it!
+                <strong>In the Simulator:</strong> The DNS server holds two kinds of record. An <strong>A</strong> record maps a name to an address: school.com A 192.168.1.10. A <strong>CNAME</strong> record makes one name an alias of another: www.school.com CNAME school.com. Look up www.school.com and the server follows the alias to the address, and the browser opens the same site under either name. A name with a CNAME can have no other record. MX, AAAA and the other types in the table above are not in the simulator yet.
             </div>
 
             <div class="help-section">

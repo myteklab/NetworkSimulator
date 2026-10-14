@@ -53,8 +53,10 @@ function requestDNSLookup(id)
 {
     var elem = network.getElement(id);
     var domain = document.getElementById("dnsclientdomain").value;
+    var typeSelect = document.getElementById("dnsclienttype");
+    var qtype = typeSelect ? typeSelect.value : "A";
     if (domain && domain.trim() !== '') {
-        elem.getApp("DNSClient").DNSLookup(domain);
+        elem.getApp("DNSClient").DNSLookup(domain, qtype);
         // Immediately refresh to show pending status
         refreshDNSLookupModal(id);
         
@@ -116,6 +118,7 @@ function refreshDNSLookupModal(id)
         if (window) {
             // Save the current input value and scroll position
             var currentValue = document.getElementById("dnsclientdomain") ? document.getElementById("dnsclientdomain").value : '';
+            var currentType = document.getElementById("dnsclienttype") ? document.getElementById("dnsclienttype").value : '';
             var windowContent = document.getElementById("divdnslookup_content");
             var scrollTop = windowContent ? windowContent.scrollTop : 0;
             
@@ -125,6 +128,9 @@ function refreshDNSLookupModal(id)
             // Restore the input value
             if (currentValue && document.getElementById("dnsclientdomain")) {
                 document.getElementById("dnsclientdomain").value = currentValue;
+            }
+            if (currentType && document.getElementById("dnsclienttype")) {
+                document.getElementById("dnsclienttype").value = currentType;
             }
             
             // Restore scroll position
@@ -141,23 +147,35 @@ var DNSClient = function(ifacepos)
     var owner = null;
     var ifacepos = ifacepos;
     var localtable = [];
-    var dnsCache = {}; // DNS cache: domain -> {ip, timestamp, status}
+    // domain -> {domain, qtype, ip, answer, chain, timestamp, status}. A lookups keep the
+    // bare domain as their key, so caches saved before record types load unchanged.
+    var dnsCache = {};
+
+    function cacheKey(domain, qtype)
+    {
+        return (qtype === "A") ? domain : domain + "|" + qtype;
+    }
 
     this.save = function()
     {
         var result = {};
-        result.version = 2; // Updated version for cache support
+        result.version = 3;
         result.id = this.getId();
         result.ifacepos = ifacepos;
         
-        // Save DNS cache (but only resolved entries to avoid stale pending states)
+        // Only resolved entries, so a reload never shows a lookup stuck on pending
         result.dnsCache = {};
-        for (var domain in dnsCache) {
-            if (dnsCache[domain].status === 'resolved') {
-                result.dnsCache[domain] = {
-                    ip: dnsCache[domain].ip,
+        for (var key in dnsCache) {
+            var entry = dnsCache[key];
+            if (entry.status === 'resolved') {
+                result.dnsCache[key] = {
+                    domain: entry.domain,
+                    qtype: entry.qtype,
+                    ip: entry.ip,
+                    answer: entry.answer,
+                    chain: entry.chain,
                     status: 'resolved',
-                    timestamp: dnsCache[domain].timestamp.toISOString()
+                    timestamp: entry.timestamp.toISOString()
                 };
             }
         }
@@ -167,18 +185,23 @@ var DNSClient = function(ifacepos)
 
     this.load = function(data)
     {
-        // Load DNS cache if available (version 2+)
         if (data.version >= 2 && data.dnsCache) {
-            for (var domain in data.dnsCache) {
-                dnsCache[domain] = {
-                    ip: data.dnsCache[domain].ip,
-                    status: data.dnsCache[domain].status,
-                    timestamp: new Date(data.dnsCache[domain].timestamp),
+            for (var key in data.dnsCache) {
+                var saved = data.dnsCache[key];
+                var domain = normalizeDNSName(saved.domain || key);
+                var qtype = saved.qtype || "A";
+                dnsCache[cacheKey(domain, qtype)] = {
+                    domain: domain,
+                    qtype: qtype,
+                    ip: saved.ip || null,
+                    answer: saved.answer || null,
+                    chain: saved.chain || [],
+                    status: saved.status,
+                    timestamp: new Date(saved.timestamp),
                     attempts: 1
                 };
-                // Also populate localtable for backward compatibility
-                if (data.dnsCache[domain].ip) {
-                    localtable[domain] = data.dnsCache[domain].ip;
+                if (qtype === "A" && saved.ip) {
+                    localtable[domain] = saved.ip;
                 }
             }
         }
@@ -189,27 +212,32 @@ var DNSClient = function(ifacepos)
         return "DNSClient";
     };
 
-    this.DNSLookup = function(domain)
+    this.DNSLookup = function(domain, qtype)
     {
-      // Add to cache as pending
-      dnsCache[domain] = {
+      domain = normalizeDNSName(domain);
+      qtype = qtype || "A";
+      var key = cacheKey(domain, qtype);
+      dnsCache[key] = {
+          domain: domain,
+          qtype: qtype,
           ip: null,
+          answer: null,
+          chain: [],
           status: 'pending',
           timestamp: new Date(),
-          attempts: (dnsCache[domain] ? dnsCache[domain].attempts + 1 : 1)
+          attempts: (dnsCache[key] ? dnsCache[key].attempts + 1 : 1)
       };
       
-      // Tenemos IP?
       if (owner.getConnectable().getIPInfo(ifacepos).getIPv4() !== null)
       {
-        //var MAC = owner.getConnectable().getDstMAC(ifacepos, owner.getConnectable().getIPInfo(ifacepos).getDNS1());
         var MAC = owner.getConnectable().getDstMAC(owner.getConnectable().getIPInfo(ifacepos).getDNS1());
         if (MAC !== null)
         {
             var data = {};
             data.domain = domain;
+            data.qtype = qtype;
             data.type = "lookup";
-            data.description = "Lookup: " + domain;
+            data.description = "Lookup: " + domain + (qtype === "A" ? "" : " (" + qtype + ")");
             var message = new Message(
             "tcp",
             owner.getConnectable().getIPInfo(ifacepos).getIPv4(),
@@ -225,52 +253,68 @@ var DNSClient = function(ifacepos)
         }
         else 
         {
-            // Can't reach DNS server - mark as failed
-            dnsCache[domain].status = 'failed';
-            dnsCache[domain].error = 'DNS server unreachable';
-            // Add diagnostic info
+            dnsCache[key].status = 'failed';
+            dnsCache[key].error = 'DNS server unreachable';
             var dnsIP = owner.getConnectable().getIPInfo(ifacepos).getDNS1();
             if (!dnsIP || dnsIP === 'null') {
-                dnsCache[domain].error = 'No DNS server configured';
+                dnsCache[key].error = 'No DNS server configured';
             }
         }
       }
       else 
       {
-          // No IP configured on this interface
-          dnsCache[domain].status = 'failed';
-          dnsCache[domain].error = 'No IP address configured';
+          dnsCache[key].status = 'failed';
+          dnsCache[key].error = 'No IP address configured';
       }
     };
 
     this.receiveMessage = function(message)
     {
-        if (message.getData().domain) {
-            if (message.getData().ip !== null)
-            {
-                localtable[message.getData().domain] = message.getData().ip;
-                // Update DNS cache with successful result
-                dnsCache[message.getData().domain] = {
-                    ip: message.getData().ip,
-                    status: 'resolved',
-                    timestamp: new Date(),
-                    attempts: dnsCache[message.getData().domain] ? dnsCache[message.getData().domain].attempts : 1
-                };
-            } else {
-                // Update DNS cache with failed result
-                if (dnsCache[message.getData().domain]) {
-                    dnsCache[message.getData().domain].status = 'failed';
-                    dnsCache[message.getData().domain].timestamp = new Date();
-                }
+        var data = message.getData();
+        if (!data.domain) {
+            return;
+        }
+        var domain = normalizeDNSName(data.domain);
+        var qtype = data.qtype || "A";
+        var key = cacheKey(domain, qtype);
+        var attempts = dnsCache[key] ? dnsCache[key].attempts : 1;
+        var ip = (data.ip !== undefined && data.ip !== null) ? data.ip : null;
+        var answer = data.answer || null;
+
+        if (ip !== null || answer !== null)
+        {
+            if (qtype === "A") {
+                localtable[domain] = ip;
             }
-            
-            // Try to refresh the modal if it's open
-            if (owner && owner.getId) {
-                try {
-                    refreshDNSLookupModal(owner.getId());
-                } catch(e) {
-                    // Modal might not be open, that's ok
-                }
+            dnsCache[key] = {
+                domain: domain,
+                qtype: qtype,
+                ip: ip,
+                answer: answer,
+                chain: data.chain || [],
+                status: 'resolved',
+                timestamp: new Date(),
+                attempts: attempts
+            };
+        } else {
+            dnsCache[key] = {
+                domain: domain,
+                qtype: qtype,
+                ip: null,
+                answer: null,
+                chain: data.chain || [],
+                status: 'failed',
+                error: data.error || 'not found',
+                timestamp: new Date(),
+                attempts: attempts
+            };
+        }
+        
+        if (owner && owner.getId) {
+            try {
+                refreshDNSLookupModal(owner.getId());
+            } catch(e) {
+                // The lookup window is usually closed by the time a browse answer lands
             }
         }
     };
@@ -287,14 +331,8 @@ var DNSClient = function(ifacepos)
 
     this.getIp = function(domain)
     {
-        var result = null;
-
-        if (domain in localtable)
-        {
-            result = localtable[domain];
-        }
-
-        return result;
+        domain = normalizeDNSName(domain);
+        return (domain in localtable) ? localtable[domain] : null;
     };
 
     this.getAppController = function()
@@ -305,7 +343,12 @@ var DNSClient = function(ifacepos)
         // DNS Lookup input
         result += "<div style='margin-bottom:20px;'> \
         <label for='dnsclientdomain' style='display:block;margin-bottom:5px;color:#a0a0a0;'>"+_("Domain:")+"</label> \
-        <input type='text' id='dnsclientdomain' style='width:100%;padding:8px;background:#2a2d3e;border:1px solid #667eea;border-radius:4px;color:#e4e4e7;' placeholder='example.com' /> \
+        <div style='display:flex;gap:8px;'> \
+        <input type='text' id='dnsclientdomain' style='flex:1;padding:8px;background:#2a2d3e;border:1px solid #667eea;border-radius:4px;color:#e4e4e7;' placeholder='example.com' /> \
+        <select id='dnsclienttype' title='"+_("Record type")+"' style='padding:8px;background:#2a2d3e;border:1px solid #667eea;border-radius:4px;color:#e4e4e7;'> \
+        <option value='A'>A</option><option value='CNAME'>CNAME</option> \
+        </select> \
+        </div> \
         </div>";
         
         // DNS Cache display
@@ -318,15 +361,21 @@ var DNSClient = function(ifacepos)
             result += "<table style='width:100%;font-size:12px;'>";
             result += "<thead><tr style='color:#a0a0a0;'>";
             result += "<th style='text-align:left;padding:5px;'>Domain</th>";
-            result += "<th style='text-align:left;padding:5px;'>IP Address</th>";
+            result += "<th style='text-align:left;padding:5px;'>Type</th>";
+            result += "<th style='text-align:left;padding:5px;'>Answer</th>";
             result += "<th style='text-align:left;padding:5px;'>Status</th>";
             result += "<th style='text-align:left;padding:5px;'>Age</th>";
             result += "</tr></thead>";
             result += "<tbody>";
             
             for (var i = 0; i < cacheEntries.length; i++) {
-                var domain = cacheEntries[i];
-                var entry = dnsCache[domain];
+                var entry = dnsCache[cacheEntries[i]];
+                var domain = entry.domain || cacheEntries[i];
+                // An alias answer shows the way it went: www.easton.com → easton.com → 67.12.241.4
+                var shown = entry.answer || entry.ip || '-';
+                if (entry.chain && entry.chain.length > 0 && entry.ip) {
+                    shown = entry.chain.concat([entry.ip]).join(' \u2192 ');
+                }
                 var age = Math.floor((new Date() - entry.timestamp) / 1000);
                 var ageText = age < 60 ? age + 's' : Math.floor(age/60) + 'm';
                 
@@ -342,7 +391,8 @@ var DNSClient = function(ifacepos)
                 
                 result += "<tr style='border-top:1px solid #2a2d3a;'>";
                 result += "<td style='padding:5px;color:#e0e0e0;'>" + domain + "</td>";
-                result += "<td style='padding:5px;color:#e0e0e0;'>" + (entry.ip || '-') + "</td>";
+                result += "<td style='padding:5px;color:#a0a0a0;'>" + (entry.qtype || 'A') + "</td>";
+                result += "<td style='padding:5px;color:#e0e0e0;'>" + shown + "</td>";
                 result += "<td style='padding:5px;color:" + statusColor + ";'>" + statusIcon + " " + statusText + "</td>";
                 result += "<td style='padding:5px;color:#a0a0a0;'>" + ageText + "</td>";
                 result += "</tr>";

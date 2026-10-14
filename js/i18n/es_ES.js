@@ -87,7 +87,18 @@ var es_ES ={
     "Network not configured for interface: ":"Red no configurada para la interfaz: ",
     "File name:":"Nombre del fichero:",
     "Download":"Descargar",
-    "Download file":"Descargar fichero"
+    "Download file":"Descargar fichero",
+    "Type":"Tipo",
+    "Value":"Valor",
+    "Record type":"Tipo de registro",
+    "A maps a name to an IP address. CNAME makes a name an alias of another name.":"A asocia un nombre a una dirección IP. CNAME convierte un nombre en un alias de otro nombre.",
+    "Example: easton.com A 67.12.241.4, then www.easton.com CNAME easton.com":"Ejemplo: easton.com A 67.12.241.4, y luego www.easton.com CNAME easton.com",
+    "Type a domain name with no spaces, like www.example.com.":"Escribe un nombre de dominio sin espacios, como www.example.com.",
+    "An A record needs an IP address, like 192.168.1.10.":"Un registro A necesita una dirección IP, como 192.168.1.10.",
+    "A CNAME record points to another name, like easton.com, not to an IP address.":"Un registro CNAME apunta a otro nombre, como easton.com, no a una dirección IP.",
+    "A CNAME record cannot point to itself.":"Un registro CNAME no puede apuntar a sí mismo.",
+    " already has a record. A name with a CNAME can have no other record, so delete the old one first.":" ya tiene un registro. Un nombre con CNAME no puede tener ningún otro registro, así que borra primero el anterior.",
+    " already has an A record. Delete it first to change the address.":" ya tiene un registro A. Bórralo primero para cambiar la dirección."
 };
 
 uitranslation.registerLocale(es_ES);

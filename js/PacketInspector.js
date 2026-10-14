@@ -449,7 +449,7 @@ var PacketInspector = function() {
                 if (dstPort === 67 || dstPort === 68 || srcPort === 67 || srcPort === 68) {
                     protocol = 'DHCP ' + (dstPort === 67 ? 'Discover/Request' : 'Offer/ACK');
                 } else if (dstPort === 53 || srcPort === 53) {
-                    protocol = 'DNS Query';
+                    protocol = srcPort === 53 ? 'DNS Response' : 'DNS Query';
                 } else if (dstPort === 80 || srcPort === 80) {
                     protocol = isResponsePacket ? 'HTTP Response' : ('HTTP Request to ' + (appData.host || appData.domain || 'server'));
                 } else if (dstPort === 443 || srcPort === 443) {
@@ -1257,6 +1257,9 @@ var PacketInspector = function() {
             } else if (dstPort === 443 || srcPort === 443) {
                 protocol = 'HTTPS';
                 details = this.formatHTTPSDetails(data, message);
+            } else if (dstPort === 53 || srcPort === 53) {
+                protocol = srcPort === 53 ? 'DNS Response' : 'DNS Query';
+                details = this.formatDNSDetails(data);
             } else if (dstPort === 25 || dstPort === 110 || dstPort === 587) {
                 protocol = 'Email (SMTP/POP3)';
                 details = this.formatEmailDetails(data);
@@ -1515,6 +1518,30 @@ var PacketInspector = function() {
         if (data.from) details.push('<strong>From:</strong> ' + data.from);
         if (data.to) details.push('<strong>To:</strong> ' + data.to);
         if (data.subject) details.push('<strong>Subject:</strong> ' + data.subject);
+        return details;
+    };
+
+    this.formatDNSDetails = function(data) {
+        var details = [];
+        if (!data) return details;
+        if (data.domain) details.push('<strong>Question:</strong> ' + data.domain + ' ' + (data.qtype || 'A'));
+        var isAnswer = data.type === 'response' || data.type === 'response_forward';
+        if (!isAnswer) return details;
+        if (data.chain && data.chain.length > 0) {
+            var from = data.domain;
+            for (var i = 0; i < data.chain.length; i++) {
+                details.push('<strong>Answer:</strong> ' + from + ' CNAME ' + data.chain[i]);
+                from = data.chain[i];
+            }
+            if (data.ip) details.push('<strong>Answer:</strong> ' + from + ' A ' + data.ip);
+        } else if (data.answer) {
+            details.push('<strong>Answer:</strong> ' + data.domain + ' CNAME ' + data.answer);
+        } else if (data.ip) {
+            details.push('<strong>Answer:</strong> ' + data.domain + ' A ' + data.ip);
+        }
+        if (!data.ip && !data.answer) {
+            details.push('<strong>Answer:</strong> ' + (data.error || 'not found'));
+        }
         return details;
     };
 

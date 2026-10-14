@@ -26,7 +26,10 @@ function deleteUITableRow(id,row)
 
 function addUITableRow(id)
 {
-    uitables[id].addRow();
+    if (uitables[id].addRow() === false)
+    {
+        return;
+    }
 
     // Special handling for HTTP Server tables
     if (window.httpServerUITable && uitables[id] === window.httpServerUITable) {
@@ -60,6 +63,8 @@ var UITable = function(headers, data, tableid)
     var editsecondary = false;
     var editsecondaryfunc = null;
     var params = [];
+    var columnoptions = [];
+    var validator = null;
     uitables[id] = this;
     
     this.getId = function()
@@ -80,6 +85,18 @@ var UITable = function(headers, data, tableid)
             result = params[id];
         }
         return result;
+    };
+
+    // A column with options renders its new-row cell as a list instead of a text box
+    this.setColumnOptions = function(col, options)
+    {
+        columnoptions[col] = options;
+    };
+
+    // validator(row, data) returns an error message to refuse the row, or null to take it
+    this.setValidator = function(fn)
+    {
+        validator = fn;
     };
 
     this.setSecondary = function(editsecondary_p, editsecondaryfunc_p)
@@ -123,7 +140,19 @@ var UITable = function(headers, data, tableid)
         {
             var inputid = tableid + "_new_" + j;
             result += '<td>';
-            result += '<input type="text" id="'+inputid+'" />';
+            if (columnoptions[j])
+            {
+                result += '<select id="'+inputid+'">';
+                for (var k = 0; k < columnoptions[j].length; k++)
+                {
+                    result += '<option value="'+columnoptions[j][k]+'">'+columnoptions[j][k]+'</option>';
+                }
+                result += '</select>';
+            }
+            else
+            {
+                result += '<input type="text" id="'+inputid+'" />';
+            }
             result += '</td>';
         }
         result += '<td><img src="img/64/add.png" title="'+_("Add")+'" alt="'+_("Add")+'" style="width:24px;" onclick="addUITableRow(\''+id+'\')" /></td>';
@@ -159,7 +188,18 @@ var UITable = function(headers, data, tableid)
             row.push(value);
         }
 
+        if (validator)
+        {
+            var error = validator(row, data);
+            if (error)
+            {
+                alert(error);
+                return false;
+            }
+        }
+
         data.push(row);
         this.render();
+        return true;
     };
 };
