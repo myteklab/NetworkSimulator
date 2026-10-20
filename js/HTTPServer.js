@@ -455,7 +455,8 @@ function createDomainConfigurationWindow(hostId, primaryuitableid, row, domain, 
     content += '<div style="background: #2a2d3e; padding: 10px; border-bottom: 1px solid #3a3d4e;">';
     content += '<button id="tab-general" class="domain-tab active" onclick="switchDomainTab(\'general\')" style="padding: 8px 16px; margin-right: 5px; background: #667eea; color: white; border: none; border-radius: 4px 4px 0 0; cursor: pointer;">General</button>';
     content += '<button id="tab-certificate" class="domain-tab" onclick="switchDomainTab(\'certificate\')" style="padding: 8px 16px; margin-right: 5px; background: #3a3d4e; color: #e4e4e7; border: none; border-radius: 4px 4px 0 0; cursor: pointer;">Certificate</button>';
-    content += '<button id="tab-files" class="domain-tab" onclick="switchDomainTab(\'files\')" style="padding: 8px 16px; background: #3a3d4e; color: #e4e4e7; border: none; border-radius: 4px 4px 0 0; cursor: pointer;">Files</button>';
+    content += '<button id="tab-files" class="domain-tab" onclick="switchDomainTab(\'files\')" style="padding: 8px 16px; margin-right: 5px; background: #3a3d4e; color: #e4e4e7; border: none; border-radius: 4px 4px 0 0; cursor: pointer;">Files</button>';
+    content += '<button id="tab-login" class="domain-tab" onclick="switchDomainTab(\'login\')" style="padding: 8px 16px; background: #3a3d4e; color: #e4e4e7; border: none; border-radius: 4px 4px 0 0; cursor: pointer;">Login</button>';
     content += '</div>';
 
     // Tab content container
@@ -541,6 +542,10 @@ function createDomainConfigurationWindow(hostId, primaryuitableid, row, domain, 
     content += '</fieldset>';
     content += '</div>';
 
+    content += '<div id="tab-content-login" class="tab-content" style="display: none;">';
+    content += domainLoginTabHTML(app.getVHostAuth(domain));
+    content += '</div>';
+
     content += '</div>'; // End tab content container
     content += '</div>'; // End main container
 
@@ -608,6 +613,88 @@ function toggleHTTPServer(hostId, enable) {
 }
 
 // Tab switching function
+// The Login tab edits a copy; nothing reaches the server until the window's Save
+var domainLoginDraft = null;
+
+function domainLoginTabHTML(auth) {
+    domainLoginDraft = {users: {}};
+    for (var u in auth.users) {
+        domainLoginDraft.users[u] = auth.users[u];
+    }
+
+    var field = 'padding: 5px; background: #1a1d2e; color: #e4e4e7; border: 1px solid #3a3d4e; border-radius: 3px;';
+    var html = '<fieldset style="margin-bottom: 15px; padding: 15px; border: 1px solid #3a3d4e; border-radius: 5px; background: #2a2d3e;">';
+    html += '<legend style="color: #667eea; font-weight: bold;">Sign-in (Basic authentication)</legend>';
+
+    html += '<label style="display: block; margin-bottom: 12px; cursor: pointer;">';
+    html += '<input type="checkbox" id="domainAuthEnabled"' + (auth.enabled ? ' checked' : '') + ' style="width: auto; margin: 0 8px 0 0;">';
+    html += 'Require a username and password for this site</label>';
+
+    html += '<div style="margin-bottom: 12px;">';
+    html += '<label style="display: inline-block; width: 120px;">Realm:</label>';
+    html += '<input type="text" id="domainAuthRealm" value="' + escapeHtml(auth.realm).replace(/"/g, '&quot;') + '" style="width: 250px; ' + field + '">';
+    html += '<div style="font-size: 11px; color: #9ca3af; margin: 4px 0 0 120px;">Sent in the 401 answer\'s WWW-Authenticate header, so it shows in View HTTP Response</div>';
+    html += '</div>';
+
+    html += '<div style="color: #667eea; font-weight: bold; margin: 15px 0 8px 0;">Users</div>';
+    html += '<div id="domainAuthUsers"></div>';
+    html += '<div style="display: flex; gap: 8px; align-items: center; margin-top: 8px;">';
+    html += '<input type="text" id="domainAuthNewUser" placeholder="username" style="flex: 1 1 auto; width: auto; min-width: 0; ' + field + '">';
+    html += '<input type="text" id="domainAuthNewPass" placeholder="password" style="flex: 1 1 auto; width: auto; min-width: 0; ' + field + '">';
+    html += '<button onclick="addDomainLoginUser()" style="flex: 0 0 auto; padding: 6px 12px; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer;">Add</button>';
+    html += '</div>';
+    html += '</fieldset>';
+
+    html += '<div style="padding: 10px; background: #1a1d2e; border-left: 3px solid #fbbf24; border-radius: 4px; font-size: 12px; color: #cbd5e1;">';
+    html += 'Over HTTP the browser sends the username and password in an Authorization header. It is encoded, not encrypted: any router on the path can read it. Set Protocol to HTTPS on the General tab to hide it.';
+    html += '</div>';
+
+    setTimeout(renderDomainLoginUsers, 0);
+    return html;
+}
+
+function renderDomainLoginUsers() {
+    var list = document.getElementById('domainAuthUsers');
+    if (!list || !domainLoginDraft) return;
+    var names = Object.keys(domainLoginDraft.users);
+    if (names.length === 0) {
+        list.innerHTML = '<div style="font-size: 12px; color: #6b7280; font-style: italic;">No users yet. Add one below.</div>';
+        return;
+    }
+    var html = '';
+    for (var i = 0; i < names.length; i++) {
+        html += '<div style="display: flex; align-items: center; gap: 8px; padding: 6px 8px; margin-bottom: 4px; background: #1a1d2e; border-radius: 4px; font-family: monospace; font-size: 12px;">';
+        html += '<span style="flex: 1;">' + escapeHtml(names[i]) + ' <span style="color: #6b7280;">/</span> ' + escapeHtml(domainLoginDraft.users[names[i]]) + '</span>';
+        html += '<button onclick="removeDomainLoginUser(' + i + ')" style="padding: 3px 8px; background: #f44336; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px;">Remove</button>';
+        html += '</div>';
+    }
+    list.innerHTML = html;
+}
+
+function addDomainLoginUser() {
+    var user = document.getElementById('domainAuthNewUser').value.trim();
+    var pass = document.getElementById('domainAuthNewPass').value.trim();
+    if (!user || !pass) {
+        alert('Type a username and a password, then press Add.');
+        return;
+    }
+    if (user.indexOf(':') !== -1) {
+        // Basic authentication joins the two with a colon, so a colon in the name would split it wrong
+        alert('A username cannot contain a colon (:).');
+        return;
+    }
+    domainLoginDraft.users[user] = pass;
+    document.getElementById('domainAuthNewUser').value = '';
+    document.getElementById('domainAuthNewPass').value = '';
+    renderDomainLoginUsers();
+}
+
+function removeDomainLoginUser(index) {
+    var name = Object.keys(domainLoginDraft.users)[index];
+    delete domainLoginDraft.users[name];
+    renderDomainLoginUsers();
+}
+
 function switchDomainTab(tab) {
     // Hide all tabs
     var tabs = document.querySelectorAll('.tab-content');
@@ -920,6 +1007,20 @@ function saveDomainConfiguration(hostId, domain, primaryuitableid, row) {
     var issuer = selfSigned ? subject : document.getElementById('caName').value;
 
     app.updateDomainCertificate(domain, selfSigned, issuer, subject);
+
+    // A user typed in the boxes but never added still counts, or Save would quietly drop it
+    var pendingUser = document.getElementById('domainAuthNewUser').value.trim();
+    var pendingPass = document.getElementById('domainAuthNewPass').value.trim();
+    if (pendingUser && pendingPass && pendingUser.indexOf(':') === -1) {
+        domainLoginDraft.users[pendingUser] = pendingPass;
+    }
+    var authEnabled = document.getElementById('domainAuthEnabled').checked;
+    if (authEnabled && Object.keys(domainLoginDraft.users).length === 0) {
+        alert('Add at least one user on the Login tab, or untick Require a username and password.');
+        switchDomainTab('login');
+        return;
+    }
+    app.setVHostAuth(domain, authEnabled, document.getElementById('domainAuthRealm').value, domainLoginDraft.users);
 
     // Update the UITable data with the current file information
     if (uitables[primaryuitableid]) {
@@ -1491,10 +1592,12 @@ function saveHTTPServerData1(id, uitableid)
     // Preserve existing domain settings and certificates before reset
     var savedDomainSettings = {};
     var savedDomainCertificates = {};
+    var savedDomainAuth = {};
     var existingDomains = app.getDomains();
     for (var domain in existingDomains) {
         savedDomainSettings[domain] = app.getDomainSettings(domain);
         savedDomainCertificates[domain] = app.getDomainCertificate(domain);
+        savedDomainAuth[domain] = app.getVHostAuth(domain);
     }
 
     // Save domains and files
@@ -1513,6 +1616,10 @@ function saveHTTPServerData1(id, uitableid)
                 savedDomainCertificates[domain].selfSigned,
                 savedDomainCertificates[domain].issuer,
                 savedDomainCertificates[domain].subject);
+        }
+        if (savedDomainAuth[domain]) {
+            var auth = savedDomainAuth[domain];
+            app.setVHostAuth(domain, auth.enabled, auth.realm, auth.users);
         }
 
         if (data[i].length > 1)
@@ -2322,6 +2429,34 @@ var HTTPServer = function(ifacepos)
         };
     };
     
+    this.getVHostAuth = function(domain) {
+        var vhost = config.virtualHosts && config.virtualHosts[domain];
+        var users = {};
+        if (vhost && vhost.authUsers) {
+            for (var u in vhost.authUsers) {
+                users[u] = vhost.authUsers[u];
+            }
+        }
+        return {
+            enabled: !!(vhost && vhost.requiresAuth),
+            realm: (vhost && vhost.authRealm) || 'Protected Area',
+            users: users
+        };
+    };
+
+    this.setVHostAuth = function(domain, enabled, realm, users) {
+        if (!config.virtualHosts[domain]) {
+            config.virtualHosts[domain] = {files: {}, auth: {}, redirects: {}, enabled: true};
+        }
+        var vhost = config.virtualHosts[domain];
+        vhost.requiresAuth = !!enabled;
+        vhost.authRealm = String(realm || '').trim() || 'Protected Area';
+        vhost.authUsers = {};
+        for (var u in users) {
+            vhost.authUsers[u] = users[u];
+        }
+    };
+
     this.checkAuthentication = function(hostname, path, authHeader) {
         // Check virtual host authentication first
         var vhost = config.virtualHosts && config.virtualHosts[hostname];
@@ -2433,6 +2568,7 @@ var HTTPServer = function(ifacepos)
         result += '<li>Port configuration</li>';
         result += '<li>SSL/TLS certificate</li>';
         result += '<li>Files and content</li>';
+        result += '<li>Login (username and password)</li>';
         result += '</ul>';
         result += '</div>';
         result += "<table id='httptable' style='font-size:0.9em; width: 100%; color: #e4e4e7;'></table>";
@@ -2851,7 +2987,7 @@ var HTTPServer = function(ifacepos)
             responsedata.protocol = config.protocol;
             responsedata.port = config.port;
             responsedata.headers = this.getHeaders(data.filename, null);
-            responsedata.headers['WWW-Authenticate'] = 'Basic realm="Protected Area"';
+            responsedata.headers['WWW-Authenticate'] = 'Basic realm="' + this.getVHostAuth(hostHeader).realm.replace(/"/g, "'") + '"';
             responsedata.isAPIResponse = true;
 
             // Use request's source MAC as destination - we know exactly where to send the response
