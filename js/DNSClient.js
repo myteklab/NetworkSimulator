@@ -344,8 +344,8 @@ var DNSClient = function(ifacepos)
         result += "<div style='margin-bottom:20px;'> \
         <label for='dnsclientdomain' style='display:block;margin-bottom:5px;color:#a0a0a0;'>"+_("Domain:")+"</label> \
         <div style='display:flex;gap:8px;'> \
-        <input type='text' id='dnsclientdomain' style='flex:1;padding:8px;background:#2a2d3e;border:1px solid #667eea;border-radius:4px;color:#e4e4e7;' placeholder='example.com' /> \
-        <select id='dnsclienttype' title='"+_("Record type")+"' style='padding:8px;background:#2a2d3e;border:1px solid #667eea;border-radius:4px;color:#e4e4e7;'> \
+        <input type='text' id='dnsclientdomain' style='flex:1 1 auto;width:auto;min-width:0;padding:8px;background:#2a2d3e;border:1px solid #667eea;border-radius:4px;color:#e4e4e7;' placeholder='example.com' /> \
+        <select id='dnsclienttype' title='"+_("Record type")+"' style='flex:0 0 auto;width:auto;padding:8px;background:#2a2d3e;border:1px solid #667eea;border-radius:4px;color:#e4e4e7;'> \
         <option value='A'>A</option><option value='CNAME'>CNAME</option> \
         </select> \
         </div> \
